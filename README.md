@@ -53,7 +53,6 @@ Running the command
 `<python3 xxx>`
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
-Data are saved in `<data/TADs_chr1/>`
 
 `<python3 visualization step>`
 
@@ -62,6 +61,7 @@ Multiple comparisons adjustment by *BH* will be demonstrated in the next example
 
 ### Identifying the reorganized TADs from a user given list of TADs
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
+Data are saved in `<data/TADs_chr1/>`
 
 `<python3 compare xx xx xx>`
 
