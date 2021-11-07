@@ -39,11 +39,11 @@ Download diffDomain source package by running following command in a terminal:
 `<git clone https://github.com/Tian-Dechao/diffDomain.git>`  
 
 # Get started with example usage
-We use the Hi-C data from GM12878 and K562 in Rao et al (2014) as our testing data.
+We downloaded data from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
 Input data:
-1. GM12878 TADs downloaded from xxx. 
-2. GM12878 combined Hi-C data with the link  xx
-3. K562 combined Hi-C data with the link 
+1. GM12878 TADs on Chr1. 
+2. GM12878 combined Hi-C data on Chr1
+3. K562 combined Hi-C data on Chr1  
 
 Note that, the Hi-C data can be stored locally, in that case, a directory pah should be used instead of the url. 
 
