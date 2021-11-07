@@ -56,11 +56,16 @@ diffDomain also provide visualization function to visualize Hi-C matrices side-b
 `<python3 visualization step>`
 
 Note: in this example, there is no need to do multiple comparison adjustment. 
-Multiple comparisons adjustment by BH will be demonstrated in the next example. 
+Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
 
 ### Identifying the reorganized TADs from a user given list of TADs
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
 
+`<python3 compare xx xx xx>`
+
+Adjusting multiple comparisons by *BH* method
+
+`<python3 adjustment BH >`
 
 # Contact information
 More information please contact Dechao Tian at tiandch@mail.sysu.edu.cn
