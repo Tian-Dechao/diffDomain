@@ -28,11 +28,17 @@ A few examples of reorganized TADs identified by diffDomain in two datasets are 
 
 ![workflow](/figures/workflow.jpg)
 
-## dependences
-diffDomain requires 
+# Installation instructions
+diffDomain is tested on MacOS & Linux (Centos). 
+## Dependences
+diffDomain is dependent on xx. 
 
-## example usage
-### Test if one TAD is reorganized
+## Installation
+Download diffDomain source package by running following command in a terminal:
+`<addr>`git clone https://github.com/Tian-Dechao/diffDomain.git 
+
+# Get started with example usage
+## Test if one TAD is reorganized
 In this example, there is no need to do multiple comparison adjustment.
 
 ### Identify the reorganized TADs from a user given list of TADs
