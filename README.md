@@ -35,7 +35,7 @@ diffDomain is dependent on xx.
 
 ## Installation
 Download diffDomain source package by running following command in a terminal:
-`<addr>`git clone https://github.com/Tian-Dechao/diffDomain.git 
+`<git clone https://github.com/Tian-Dechao/diffDomain.git>`  
 
 # Get started with example usage
 ## Test if one TAD is reorganized
