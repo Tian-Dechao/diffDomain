@@ -39,8 +39,22 @@ Download diffDomain source package by running following command in a terminal:
 `<git clone https://github.com/Tian-Dechao/diffDomain.git>`  
 
 # Get started with example usage
+We use the Hi-C data from GM12878 and K562 in Rao et al (2014) as our testing data.
+Input data:
+1. GM12878 TADs downloaded from xxx. 
+2. GM12878 combined Hi-C data with the link  xx
+3. K562 combined Hi-C data with the link 
+
+Note that, the Hi-C data can be stored locally, in that case, a directory pah should be used instead of the url. 
+
 ## Testing if one TAD is reorganized
-In this example, there is no need to do multiple comparison adjustment.
+In this example, we tested the TAD (ChrX:xx-xx).
+Running the command 
+
+`<python3 xxx>`
+
+Note: in this example, there is no need to do multiple comparison adjustment. 
+Multiple comparisons adjustment by BH will be demonstrated in the next example. 
 
 ### Identifying the reorganized TADs from a user given list of TADs
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
