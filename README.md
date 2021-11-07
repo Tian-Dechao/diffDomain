@@ -70,4 +70,4 @@ Adjusting multiple comparisons by *BH* method
 `<python3 adjustment BH >`
 
 # Contact information
-More information please contact Dechao Tian at tiandch@mail.sysu.edu.cn
+More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
