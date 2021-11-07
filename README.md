@@ -40,18 +40,20 @@ Download diffDomain source package by running following command in a terminal:
 
 # Get started with example usage
 We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
-Example data:
+Example data saved in `<data/>`:
 1. GM12878 TADs. 
-2. GM12878 combined Hi-C data on Chr1?
-3. K562 combined Hi-C data on Chr1? 
+2. GM12878 combined Hi-C data on Chr1 that is extracted by [Juicerbox](https://github.com/aidenlab/Juicebox) with resolution at 10 kb and normalization method at KR. The produced Hi-C data is 3-column: column 1 and column 2 are chromosomal bins, column 3 is KR normalized contact frequencies between the two bins.
+3. K562 combined Hi-C data on Chr1. Settings are the same as GM12878.
 
 ## Testing if one TAD is reorganized
-In this example, we tested the TAD (ChrX:xx-xx, use one GM12878 TAD that is clearly reorganized in K562).
+In this example, we tested the TAD (ChrX:xx-xx, use one GM12878 TAD that is clearly reorganized in K562). 
+Data are saved in `<data/single-TAD/>`
 Running the command 
 
 `<python3 xxx>`
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
+Data are saved in `<data/TADs_chr1/>`
 
 `<python3 visualization step>`
 
