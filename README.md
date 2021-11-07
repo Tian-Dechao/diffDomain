@@ -2,7 +2,7 @@
 
 The source code for diffDoamin will be uploaded by Nov 12, 2021, after submission to RECOMB 2021.
 ## brief introduction to diffDomain 
-![workflow](/figures/workflow.pdf|workflow)
+![workflow](/figures/workflow.pdf)
 
 ## dependences
 
