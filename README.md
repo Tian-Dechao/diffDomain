@@ -15,3 +15,5 @@ In this example, multiple comparison adjustment is requried to adjust the *P*-va
 ## comments
 
 ## License
+
+## More information please contact Dechao Tian at tiandch@mail.sysu.edu.cn
