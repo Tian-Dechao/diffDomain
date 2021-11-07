@@ -13,8 +13,8 @@ Intuitively, if a TAD is not significantly reorganized, normalized *D* would res
 Indeed, normalized *D* is a generalized Wigner matrix (D), a well studied high-dimensional random matrices.
 Its largest singular value is proved to be fluctuating around 2 under the null hypothesis.
 Armed with the fact, diffDomain reformulates the reorganized TAD identification problem into a hypothesis testing problem:
-    1. H0: the largest singular value equals to 2;
-    2. H1: the largest singular value is greater than  2;
+1. H0: the largest singular value equals to 2;
+2. H1: the largest singular value is greater than  2.
 For a user given set of TADs, *P* values are adjusted for multiple comparisons using ``BH" method as default.
 Once we identify the subset of reorganized TADs, we classify them into six subtypes to aid biological analysis and interpretations (F).
 A few examples of reorganized TADs identified by diffDomain in two datasets are shown in (G).
