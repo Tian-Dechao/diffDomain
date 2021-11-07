@@ -39,19 +39,21 @@ Download diffDomain source package by running following command in a terminal:
 `<git clone https://github.com/Tian-Dechao/diffDomain.git>`  
 
 # Get started with example usage
-We downloaded data from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
-Input data:
-1. GM12878 TADs on Chr1. 
-2. GM12878 combined Hi-C data on Chr1
-3. K562 combined Hi-C data on Chr1  
-
-Note that, the Hi-C data can be stored locally, in that case, a directory pah should be used instead of the url. 
+We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
+Example data:
+1. GM12878 TADs. 
+2. GM12878 combined Hi-C data on Chr1?
+3. K562 combined Hi-C data on Chr1? 
 
 ## Testing if one TAD is reorganized
-In this example, we tested the TAD (ChrX:xx-xx).
+In this example, we tested the TAD (ChrX:xx-xx, use one GM12878 TAD that is clearly reorganized in K562).
 Running the command 
 
 `<python3 xxx>`
+
+diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
+
+`<python3 visualization step>`
 
 Note: in this example, there is no need to do multiple comparison adjustment. 
 Multiple comparisons adjustment by BH will be demonstrated in the next example. 
