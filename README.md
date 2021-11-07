@@ -1,7 +1,11 @@
-# diffDomain
+# Work in progress
+The source code for diffDoamin will be uploaded by Nov 12, 2021.
 
-The source code for diffDoamin will be uploaded by Nov 12, 2021, after submission to RECOMB 2021.
-## Brief introduction to diffDomain 
+# diffDomain
+## A short description
+diffDomain is a new computational method for identifying reorganized TADs using chromatin contact maps from two biological conditions. 
+
+## A long description diffDomain 
 The workflow of diffDomain is illustrated down below.
 The goal is to test if a TAD identified in one biological condition has structural changes in another biological condition.
 The core of diffDomain is formulating the problem as a hypothesis testing problem where the null hypothesis is that the TAD doesn't undergo significant structural reorganization at later condition.
@@ -25,6 +29,7 @@ A few examples of reorganized TADs identified by diffDomain in two datasets are 
 ![workflow](/figures/workflow.jpg)
 
 ## dependences
+diffDomain requires 
 
 ## example usage
 ### Test if one TAD is reorganized
