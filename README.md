@@ -39,14 +39,12 @@ Download diffDomain source package by running following command in a terminal:
 `<git clone https://github.com/Tian-Dechao/diffDomain.git>`  
 
 # Get started with example usage
-## Test if one TAD is reorganized
+## Testing if one TAD is reorganized
 In this example, there is no need to do multiple comparison adjustment.
 
-### Identify the reorganized TADs from a user given list of TADs
+### Identifying the reorganized TADs from a user given list of TADs
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
 
-## comments
 
-## License
-
-## More information please contact Dechao Tian at tiandch@mail.sysu.edu.cn
+# Contact information
+More information please contact Dechao Tian at tiandch@mail.sysu.edu.cn
