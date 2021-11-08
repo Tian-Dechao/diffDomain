@@ -59,7 +59,7 @@ diffDomain also provide visualization function to visualize Hi-C matrices side-b
 Note: in this example, there is no need to do multiple comparison adjustment. 
 Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
 
-### Identifying the reorganized TADs from a user given list of TADs
+### Identifying the reorganized TADs on a 50 Mb region (Chr1:1-50,000,000)
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
 Data are saved in `<data/TADs_chr1/>`
 
@@ -92,7 +92,7 @@ Filtering out reorganized TADs with *BH < 0.05*
 
 `<python 3 xxx>`
 
-The output is saved to `<data/reorganized_TADs_GM12878_K562.tsv>`
+The output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`
 
 # Contact information
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
