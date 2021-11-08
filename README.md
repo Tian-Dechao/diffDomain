@@ -43,7 +43,7 @@ Example data saved in `<data/>`:
 3. K562 combined Hi-C data on Chr1. Settings are the same as GM12878.
 
 ## Testing if one TAD is reorganized
-In this example, we tested the TAD (ChrX:xx-xx, use one GM12878 TAD that is clearly reorganized in K562). 
+In this example, we tested the TAD harboring VEGFA (ChrX:xx-xx, use one GM12878 TAD that is clearly reorganized in K562). 
 Data are saved in `<data/single-TAD/>`
 Running the command 
 
