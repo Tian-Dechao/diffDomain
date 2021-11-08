@@ -75,6 +75,7 @@ Visualization of GM12878 TADs that are reorganized in K562
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
 Example outputs are shown in below figure. 
+
 ![reorganized TADs on chr1](/figures/TADs_chr1.jpg)
 # Contact information
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
