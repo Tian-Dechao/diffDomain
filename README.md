@@ -29,6 +29,7 @@ A few examples of reorganized TADs identified by diffDomain in two datasets are 
 diffDomain is tested on MacOS & Linux (Centos). 
 ## Dependences
 diffDomain is dependent on xx. 
+Python2.7
 
 ## Installation
 Download diffDomain source package by running following command in a terminal:
@@ -47,7 +48,7 @@ In this example, we tested the XX TAD that is reorganized in XX (ChrX:xx-xx, [Re
 Data are saved in `<data/single-TAD/>`
 Running the command 
 
-`<python3 xxx>`
+`<python27 xxx>`
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
