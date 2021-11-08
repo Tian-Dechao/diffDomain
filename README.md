@@ -52,7 +52,7 @@ Running the command
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
-`<python3 visualization step>`
+`<python27 visualization step>`
 
 Note: in this example, there is no need to do multiple comparison adjustment. 
 Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
@@ -61,15 +61,15 @@ Multiple comparisons adjustment by *BH* will be demonstrated in the next example
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
 Data are saved in `<data/TADs_chr1/>`
 
-`<python3 compare xx xx xx>`
+`<python27 compare xx xx xx>`
 
 Adjusting multiple comparisons by *BH* method
 
-`<python3 adjustment BH >`
+`<python27 adjustment BH >`
 
 Visualization of GM12878 TADs that are reorganized in K562
 
-`<python3 xx xxx >`
+`<python27 xx xxx >`
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
 Example visualization outputs are shown below. 
@@ -84,7 +84,7 @@ Identifying reorganized TADs on each chromosome.
 
 Combining results into one and adjusting for multiple comparisons 
 
-`<python3 xxx>`
+`<python27 xxx>`
 
 Filtering out reorganized TADs with *BH < 0.05*
 
