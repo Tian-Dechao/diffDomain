@@ -74,7 +74,7 @@ Visualization of GM12878 TADs that are reorganized in K562
 `<python3 xx xxx >`
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
-Example outputs are shown in below figure. 
+Example visualization outputs are shown below. 
 
 ![reorganized TADs on chr1](/figures/TADs_chr1.jpg)
 
