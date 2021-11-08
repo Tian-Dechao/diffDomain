@@ -78,5 +78,21 @@ Example visualization outputs are shown below.
 
 ![reorganized TADs on chr1](/figures/TADs_chr1.jpg)
 
+### Identifying GM12878 TADs that are reorganized in  K562, using all TADs.
+Data is using Amazon.
+
+Identifying reorganized TADs on each chromosome.
+
+
+Combining results into one and adjusting for multiple comparisons 
+
+`<python3 xxx>`
+
+Filtering out reorganized TADs with *BH < 0.05*
+
+`<python 3 xxx>`
+
+The output is saved to `<data/reorganized_TADs_GM12878_K562.tsv>`
+
 # Contact information
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
