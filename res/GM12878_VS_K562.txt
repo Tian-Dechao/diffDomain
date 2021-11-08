@@ -1,0 +1,27 @@
+#<start>	163500000
+#<end>	165000000
+#--f	0.5
+#<chr>	1
+#--chrn	ALL
+#--hicnorm	KR
+#--ofile	res/GM12878_vs_K562.txt
+#multiple	False
+#one	True
+#<bed>	
+#--ncore	10
+#--sep	"	"
+#--oprefixFig	
+#visualization	False
+#dvsd	True
+#--oprefix	
+#--min_nbin	10
+#--reso	10000
+#<hic0>	/lanec1_home/data/GSE63525_cell2014/GSE63525_GM12878_insitu_primary_replicate_combined.hic
+#<hic1>	/lanec1_home/data/GSE63525_cell2014/GSE63525_K562_combined.hic
+1
+163500000
+165000000
+chr1:163500000-165000000
+56.25247362181346
+0.0
+151
