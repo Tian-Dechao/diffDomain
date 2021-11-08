@@ -69,5 +69,11 @@ Adjusting multiple comparisons by *BH* method
 
 `<python3 adjustment BH >`
 
+Visualization of GM12878 TADs that are reorganized in K562
+
+`<python3 xx xxx >`
+
+For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
+
 # Contact information
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
