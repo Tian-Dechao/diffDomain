@@ -1,6 +1,3 @@
-# Work in progress
-The source code for diffDoamin will be uploaded by Nov 12, 2021.
-
 # diffDomain
 ## A short description
 diffDomain is a new computational method for identifying reorganized TADs using chromatin contact maps from two biological conditions. 
