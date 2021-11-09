@@ -50,7 +50,7 @@ In this example, we tested the GM12878 TAD that is reorganized in K562 (Chr1:163
 Data are saved in `<data/single-TAD/>`
 Running the command 
 
-- Usage: scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
+- Usage: scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]
 
 ```
 python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/GM12878_VS_K562.txt
@@ -59,7 +59,8 @@ python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM1287
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
 - Usage:scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
-Figure are saved in `<res/images>`
+
+Figure are saved in `<res/images>`.
 
 ```
 python2 src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/images/side_by_side
@@ -76,7 +77,8 @@ Data are saved in `<data/TADs_chr1/>`
 ```
 python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/res.txt
 ```
-Adjusting multiple comparisons by *BH* method
+
+- Adjusting multiple comparisons by *BH* method (default)
 
 ```
 python2 src/diffdomains.py adjustment res/temp/res.txt res/adjusted_TADs1.txt
@@ -90,7 +92,7 @@ Example visualization outputs are shown below.
 ### Identifying GM12878 TADs that are reorganized in  K562, using all TADs.
 Data is using Amazon.
 
-- Identify TADs in multiple chromosomes at once  
+- Identify TADs in multiple chromosomes simultaneously   
 
 ```
 python2 src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
