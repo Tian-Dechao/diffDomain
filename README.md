@@ -34,7 +34,9 @@ Python2.7
 ## Installation
 Download diffDomain source package by running following command in a terminal:
 
-`<git clone https://github.com/Tian-Dechao/diffDomain.git>`  
+```
+git clone https://github.com/Tian-Dechao/diffDomain.git
+```  
 
 # Get started with example usage
 We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
@@ -48,10 +50,10 @@ In this example, we tested the GM12878 TAD that is reorganized in K562 (Chr1:163
 Data are saved in `<data/single-TAD/>`
 Running the command 
 
-- Usage:scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
+- Usage: scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
 
 ```
-<python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/GM12878_VS_K562.txt>
+python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/GM12878_VS_K562.txt
 ```
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
@@ -59,8 +61,9 @@ diffDomain also provide visualization function to visualize Hi-C matrices side-b
 - Usage:scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
 Figure are saved in `<res/images>`
 
-`<python2 src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/images/side_by_side>`
-
+```
+python2 src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/images/side_by_side
+```
 Note: in this example, there is no need to do multiple comparison adjustment. 
 Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
 
@@ -68,13 +71,16 @@ Multiple comparisons adjustment by *BH* will be demonstrated in the next example
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
 Data are saved in `<data/TADs_chr1/>`
 
-- Usage:scriptname dvsd multiple <hic0> <hic1> <bed> [options]
+- Usage: scriptname dvsd multiple <hic0> <hic1> <bed> [options]
 
-`<python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/res.txt>`
-
+```
+python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/res.txt
+```
 Adjusting multiple comparisons by *BH* method
 
-`<python2 src/diffdomains.py adjustment res/temp/res.txt res/adjusted_TADs1.txt>`
+```
+python2 src/diffdomains.py adjustment res/temp/res.txt res/adjusted_TADs1.txt
+```
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
 Example visualization outputs are shown below. 
@@ -86,14 +92,21 @@ Data is using Amazon.
 
 - Identify TADs in multiple chromosomes at once  
 
-`<python2 src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt>`
+```
+python2 src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
+```
+
 - MultiComparison for adjustment
 
-`<python2 src/diffdomains.py adjustment res/temp/temp.txt res/adjusted_TADs2.txt --adj BH --alpha 0.05>`
+```
+python2 src/diffdomains.py adjustment res/temp/temp.txt res/adjusted_TADs2.txt --adj BH --alpha 0.05
+```
 
 - Filtering out reorganized TADs with *BH < 0.05*
 
-`<python2 src/diffdomains.py filter res/adjusted_TADs2.txt res/reorganized_TADs_GM12878_K562.tsv>`
+```
+python2 src/diffdomains.py filter res/adjusted_TADs2.txt res/reorganized_TADs_GM12878_K562.tsv
+```
 
 The output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`
 
