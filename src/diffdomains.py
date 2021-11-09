@@ -67,12 +67,15 @@ if(opts['dvsd']):
         result.to_csv(opts['--ofile'], sep='\t', index=False, header=False, mode='a')
 
 if(opts['visualization']):
+    #
     def save_fig(fig_id, tight_layout=True, fig_extension="pdf", resolution=600):
         path = os.path.join("res/images", fig_id + "." + fig_extension)
         print("Saving figure", fig_id)
         if tight_layout:
             plt.tight_layout()
             plt.savefig(path, format=fig_extension, dpi=resolution)
+
+
     def plot(mat,outputfile):
         fig,ax = plt.subplots(figsize=(6,6))
         sns.heatmap(data=mat,vmax=int(round(np.nanmax(mat)))/5,cmap=cdict,cbar=False,mask=mat<0.1,square=True)
@@ -95,9 +98,9 @@ if(opts['visualization']):
 
 
 if(opts['adjustment']):
+    #
     import statsmodels.stats.multitest as smm
-    # some parameters could change
-    def read_compared(inputfile, method='fdr_bh',alpha=0.05, skiprows=25):
+    def read_compared(inputfile, method='fdr_bh', alpha=0.05, skiprows=25):
         df = pd.read_csv(inputfile, header=None, sep='\t', skiprows=skiprows, error_bad_lines=False)
         df.columns=['chr','start','end','region','stat','pvalue','bins']
         pvalue = df['pvalue']

@@ -71,7 +71,7 @@ Multiple comparisons adjustment by *BH* will be demonstrated in the next example
 
 ### Identifying the reorganized TADs in chr1
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
-chr1_domainlist are saved in `<data/TADs_chr1/>`, [GM12878.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FGM12878%5Finsitu%5Fprimary%2Breplicate%5Fcombined%2Ehic) and [K562.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FK562%5Fcombined%2Ehic) comes from these two links, because the file is too large, you may need to download it to your hard drive in advance 
+chr1_domainlist are saved in `<data/TADs_chr1/>`, [GM12878.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FGM12878%5Finsitu%5Fprimary%2Breplicate%5Fcombined%2Ehic) and [K562.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FK562%5Fcombined%2Ehic) comes from these two links, because the file is too large, you may need to download it to your hard drive in advance.
 
 - Usage: scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
 
@@ -94,25 +94,25 @@ Example visualization outputs are shown below.
 ### Identifying GM12878 TADs that are reorganized in  K562, using all TADs.
 Data is using Amazon.
 
-- Identify TADs in multiple chromosomes simultaneously   
+- Identify TADs in multiple chromosomes simultaneously. 
 
 ```
 python2 src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
 ```
 
-- MultiComparison for adjustment
+- MultiComparison for adjustment.
 
 ```
 python2 src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/adjusted_TADs2.txt 
 ```
 
-- optional parameter **[--filter]**, Filtering out reorganized TADs with *BH < 0.05*
+- optional parameter **[--filter]**, Filtering out reorganized TADs with *BH < 0.05*.
 
 ```
 python2 src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/reorganized_TADs_GM12878_K562.tsv --filter true
 ```
 
-The final output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`
+The final output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`.
 
 # Contact information
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
