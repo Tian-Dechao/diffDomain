@@ -29,8 +29,7 @@ A few examples of reorganized TADs identified by diffDomain in two datasets are 
 diffDomain is tested on MacOS & Linux (Centos). 
 ## Dependences
 diffDomain is dependent on xx. 
-Python2.7.18
-R= 4.0.2
+Python2.7
 
 ## Installation
 Download diffDomain source package by running following command in a terminal:
@@ -50,11 +49,16 @@ Data are saved in `<data/single-TAD/>`
 Running the command 
 
 - Usage:scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
-`<python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/GM12878_VS_K562.txt>`
+
+```
+<python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/GM12878_VS_K562.txt>
+```
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
 - Usage:scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
+Figure are saved in `<res/images>`
+
 `<python2 src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/images/side_by_side>`
 
 Note: in this example, there is no need to do multiple comparison adjustment. 
@@ -65,6 +69,7 @@ In this example, multiple comparison adjustment is requried to adjust the *P*-va
 Data are saved in `<data/TADs_chr1/>`
 
 - Usage:scriptname dvsd multiple <hic0> <hic1> <bed> [options]
+
 `<python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/res.txt>`
 
 Adjusting multiple comparisons by *BH* method
