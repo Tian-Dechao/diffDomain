@@ -47,7 +47,8 @@ Example data saved in `<data/>`:
 
 ## Testing if one TAD is reorganized
 In this example, we tested the GM12878 TAD that is reorganized in K562 (Chr1:163500000-165000000, [Ref](http://dx.doi.org/10.1016/j.molcel.2017.07.022)). 
-Data are saved in `<data/single-TAD/>`
+Data are saved in `<data/single-TAD/>`.
+
 Running the command 
 
 - Usage: scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]
@@ -58,9 +59,9 @@ python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM1287
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
-- Usage:scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
+- Usage:scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]
 
-Figure are saved in `<res/images>`.
+Figure are saved in `<res/images/>`.
 
 ```
 python2 src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/images/side_by_side
@@ -72,7 +73,7 @@ Multiple comparisons adjustment by *BH* will be demonstrated in the next example
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
 Data are saved in `<data/TADs_chr1/>`
 
-- Usage: scriptname dvsd multiple <hic0> <hic1> <bed> [options]
+- Usage: scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
 
 ```
 python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/res.txt

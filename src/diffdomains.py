@@ -4,8 +4,7 @@ Usage:
     scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
     scriptname dvsd multiple <hic0> <hic1> <bed> [options]
     scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
-    scriptname adjustment <input> <output> [options]
-    scriptname adjustment <input> <output> [options]
+    scriptname adjustment <method> <input> <output> [options]
 
 Options:
     --ofile filepath for output file  [default: stdout]
@@ -18,8 +17,7 @@ Options:
     --ncore number of parallel process  [default: 10]
     --min_nbin effective number of bin  [default: 10]
     --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]
-    --adj MultiComparison method  [default: bh]
-    --alpha  [default: 0.05]
+    --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]
 
 
 """
@@ -94,5 +92,36 @@ if(opts['visualization']):
     tril_mat = (np.tril(matrix1,-1)); triu_mat = (np.triu(matrix2,1))
     mat = tril_mat + triu_mat
     plot(mat,opts['--ofile'])
+
+
+if(opts['adjustment']):
+    import statsmodels.stats.multitest as smm
+    # some parameters could change
+    def read_compared(inputfile, method='fdr_bh',alpha=0.05, skiprows=25):
+        df = pd.read_csv(inputfile, header=None, sep='\t', skiprows=skiprows, error_bad_lines=False)
+        df.columns=['chr','start','end','region','stat','pvalue','bins']
+        pvalue = df['pvalue']
+        pvalue = df['pvalue'].fillna(pvalue.median())
+        rej, pval_corr = smm.multipletests(pvalue, is_sorted=False, alpha=alpha, method=method)[:2]
+        df['adj_pvalue'] = pval_corr
+        return df
+
+
+    res = read_compared(inputfile=opts['<input>'], method=opts['<method>'])
+    if opts['--filter'] == "true":
+        #save result
+        res = res[res['adj_pvalue']<=0.05]
+        print(res)
+        res.to_csv(opts['<output>'], index=False, sep='\t')
+
+    elif opts['--filter'] == "false":
+        res.to_csv(opts['<output>'], index=False, sep='\t')
+        print(res)
+
+    else:
+        print("Sorry, this is an invalid parameter ")
+
+
+
 
 
