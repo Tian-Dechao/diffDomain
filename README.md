@@ -71,18 +71,19 @@ Multiple comparisons adjustment by *BH* will be demonstrated in the next example
 
 ### Identifying the reorganized TADs in chr1
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
-Data are saved in `<data/TADs_chr1/>`
+chr1_domainlist are saved in `<data/TADs_chr1/>`, [GM12878.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FGM12878%5Finsitu%5Fprimary%2Breplicate%5Fcombined%2Ehic) and [K562.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FK562%5Fcombined%2Ehic) comes from these two links, because the file is too large, you may need to download it to your hard drive in advance 
 
 - Usage: scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
 
 ```
-python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/res.txt
+python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt
 ```
 
-- Adjusting multiple comparisons by *BH* method (default)
+- Adjusting multiple comparisons by *BH* method (default, Optional parameters: *fdr_by*, *bonferroni*, *holm*, *hommel* etc.)
+- Usage: scriptname adjustment \<method> \<input> \<output> 
 
 ```
-python2 src/diffdomains.py adjustment res/temp/res.txt res/adjusted_TADs1.txt
+python2 src/diffdomains.py adjustment fdr_bh res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt res/adjusted_chr1.tsv --filter true
 ```
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
@@ -102,16 +103,16 @@ python2 src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq
 - MultiComparison for adjustment
 
 ```
-python2 src/diffdomains.py adjustment res/temp/temp.txt res/adjusted_TADs2.txt --adj BH --alpha 0.05
+python2 src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/adjusted_TADs2.txt 
 ```
 
-- Filtering out reorganized TADs with *BH < 0.05*
+- optional parameter **[--filter]**, Filtering out reorganized TADs with *BH < 0.05*
 
 ```
-python2 src/diffdomains.py filter res/adjusted_TADs2.txt res/reorganized_TADs_GM12878_K562.tsv
+python2 src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/reorganized_TADs_GM12878_K562.tsv --filter true
 ```
 
-The output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`
+The final output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`
 
 # Contact information
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
