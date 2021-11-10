@@ -28,8 +28,14 @@ A few examples of reorganized TADs identified by diffDomain in two datasets are 
 # Installation instructions
 diffDomain is tested on MacOS & Linux (Centos). 
 ## Dependences
-diffDomain is dependent on xx. 
-Python2.7
+diffDomain is dependent on 
+- Python 2.7
+- hic-straw 0.0.6
+- TracyWidom 0.3.0
+- pandas 0.18.1
+- numpy 1.15.0
+- docopt 0.6.2
+- matplotlib 1.5.1
 
 ## Installation
 Download diffDomain source package by running following command in a terminal:
@@ -54,7 +60,7 @@ Running the command
 - Usage: scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]
 
 ```
-python2 src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/GM12878_VS_K562.txt
+python src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt --reso 10000 --ofile res/chr1_163500000_165000000.txt
 ```
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
@@ -64,7 +70,7 @@ diffDomain also provide visualization function to visualize Hi-C matrices side-b
 Figure are saved in `<res/images/>`.
 
 ```
-python2 src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k data/single-TAD/K562_chr1_163500000_165000000_res_10k --reso 10000 --ofile res/images/side_by_side
+python src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt --reso 10000 --ofile res/images/side_by_side
 ```
 Note: in this example, there is no need to do multiple comparison adjustment. 
 Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
@@ -76,14 +82,14 @@ chr1_domainlist are saved in `<data/TADs_chr1/>`, [GM12878.hic](https://ftp.ncbi
 - Usage: scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
 
 ```
-python2 src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt
+python src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt
 ```
 
 - Adjusting multiple comparisons by *BH* method (default, Optional parameters: *fdr_by*, *bonferroni*, *holm*, *hommel* etc.)
 - Usage: scriptname adjustment \<method> \<input> \<output> 
 
 ```
-python2 src/diffdomains.py adjustment fdr_bh res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt res/adjusted_chr1.tsv --filter true
+python src/diffdomains.py adjustment fdr_bh res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt res/adjusted_chr1.tsv --filter true
 ```
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
@@ -97,19 +103,19 @@ Data is using Amazon.
 - Identify TADs in multiple chromosomes simultaneously. 
 
 ```
-python2 src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
+python src/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
 ```
 
-- MultiComparison for adjustment.
+- MultiComparison adjustment.
 
 ```
-python2 src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/adjusted_TADs2.txt 
+python src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/adjusted_TADs2.txt 
 ```
 
 - optional parameter **[--filter]**, Filtering out reorganized TADs with *BH < 0.05*.
 
 ```
-python2 src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/reorganized_TADs_GM12878_K562.tsv --filter true
+python src/diffdomains.py adjustment fdr_bh res/temp/temp.txt res/reorganized_TADs_GM12878_K562.tsv --filter true
 ```
 
 The final output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`.
