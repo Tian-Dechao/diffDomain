@@ -36,6 +36,7 @@ diffDomain is dependent on
 - numpy 1.15.0
 - docopt 0.6.2
 - matplotlib 1.5.1
+- statsmodels 0.6.1
 
 ## Installation
 Download diffDomain source package by running following command in a terminal:
@@ -65,7 +66,7 @@ python src/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
-- Usage:scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]
+- Usage: scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]
 
 Figure are saved in `<res/images/>`.
 
