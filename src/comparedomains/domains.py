@@ -86,33 +86,68 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
     mat[:] = np.nan
     # find the edgelist from .hic
     region = "{0}:{1}:{2}".format(chrn, domwin[0], domwin[-1])
+    print(region)
     if fhic[-4:] == '.hic':
         try:
             el = straw.straw(hicnorm, fhic, region, region, 'BP', reso)
+            for i in range(len(el[2])):
+                bin0 = el[0][i]
+                bin1 = el[1][i]
+                k=domwin_dict[bin0]
+                l=domwin_dict[bin1]
+                if k == l:
+                    mat[k, l] = el[2][i]
+                else:
+                    mat[k, l] = el[2][i]
+                    mat[l, k] = el[2][i]
 
+            return mat
         except IOError:
             print("Sorry,{%s} does't exist."% fhic )
             mat = None
-    # load input file
+            return mat
+
+    ## This module is just written to test the .h5 sample data (chr1_50M_GM12878.h5, chr1_50M_K562.h5)
+    elif fhic[-3:] == '.h5':
+        import h5py
+        hf = h5py.File(fhic,'r')
+        regions = "{0}:{1}:{2}".format(chrn, start, end)
+        el = hf.get(regions)
+        print(regions)
+        el = np.array(el) # transform to numpy format
+
+        for i in range(len(el[2])):
+            bin0 = el[0][i]
+            bin1 = el[1][i]
+            k=domwin_dict[bin0]
+            l=domwin_dict[bin1]
+            if k == l:
+                mat[k, l] = el[2][i]
+            else:
+                mat[k, l] = el[2][i]
+                mat[l, k] = el[2][i]
+
+        return mat
+
+    # load a sparse matrix with three columns
     else:
         data = pd.read_table(fhic,sep='\t')
         el =[[],[],[]]
         el[0] = data[data.columns[0]].tolist()
         el[1] = data[data.columns[1]].tolist()
         el[2] = data[data.columns[2]].tolist()
+        for i in range(len(el[2])):
+            bin0 = el[0][i]
+            bin1 = el[1][i]
+            k=domwin_dict[bin0]
+            l=domwin_dict[bin1]
+            if k == l:
+                mat[k, l] = el[2][i]
+            else:
+                mat[k, l] = el[2][i]
+                mat[l, k] = el[2][i]
 
-    for i in range(len(el[2])):
-        bin0 = el[0][i]
-        bin1 = el[1][i]
-        k=domwin_dict[bin0]
-        l=domwin_dict[bin1]
-        if k == l:
-            mat[k, l] = el[2][i]
-        else:
-            mat[k, l] = el[2][i]
-            mat[l, k] = el[2][i]
-
-    return mat
+        return mat
 
 
 def extractKdiagonalCsrMatrix(spsCsrMat):

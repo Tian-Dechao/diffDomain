@@ -49,7 +49,7 @@ git clone https://github.com/Tian-Dechao/diffDomain.git
 We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
 Example data saved in `<data/>`:
 1. GM12878 TADs. 
-2. GM12878 combined Hi-C data on Chr1 that is extracted by [Juicerbox](https://github.com/aidenlab/Juicebox) with resolution at 10 kb and normalization method at KR. The produced Hi-C data is 3-column: column 1 and column 2 are chromosomal bins, column 3 is KR normalized contact frequencies between the two bins.
+2. GM12878 combined Hi-C data on Chr1 that is extracted by [Juicebox](https://github.com/aidenlab/Juicebox) with resolution at 10 kb and normalization method at KR. The produced Hi-C data is 3-column: column 1 and column 2 are chromosomal bins, column 3 is KR normalized contact frequencies between the two bins.
 3. K562 combined Hi-C data on Chr1. Settings are the same as GM12878.
 
 ## Testing if one TAD is reorganized
@@ -76,21 +76,21 @@ python src/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM
 Note: in this example, there is no need to do multiple comparison adjustment. 
 Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
 
-### Identifying the reorganized TADs in chr1
+### Identifying the reorganized TADs on a 50 Mb region (Chr1:1-50,000,000)
 In this example, multiple comparison adjustment is requried to adjust the *P*-values.
-chr1_domainlist are saved in `<data/TADs_chr1/>`, [GM12878.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FGM12878%5Finsitu%5Fprimary%2Breplicate%5Fcombined%2Ehic) and [K562.hic](https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FK562%5Fcombined%2Ehic) comes from these two links, because the file is too large, you may need to download it to your hard drive in advance.
+chr1_50M_domainlist are saved in `<data/TADs_chr1/>`.
 
 - Usage: scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
 
 ```
-python src/diffdomains.py dvsd multiple GM12878.hic K562.hic data/TADs_chr1/GM12878_chr1_domainlist.txt --ofile res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt
+python src/diffdomains.py dvsd multiple data/TADs_chr1/chr1_50M_GM12878.h5 data/TADs_chr1/chr1_50M_K562.h5 data/TADs_chr1/GM12878_chr1_50M_domainlist.txt --reso 10000 --ofile res/temp/GM12878_vs_K562_chr1_50M_temp.txt
 ```
 
-- Adjusting multiple comparisons by *BH* method (default, Optional parameters: *fdr_by*, *bonferroni*, *holm*, *hommel* etc.)
+- Adjusting multiple comparisons by *BH* method (default, Optional parameters: *fdr_by*, *bonferroni*, *holm*, *hommel* etc.) and Filtering out reorganized TADs with *BH < 0.05*
 - Usage: scriptname adjustment \<method> \<input> \<output> 
 
 ```
-python src/diffdomains.py adjustment fdr_bh res/temp/GSE63525_GM12878_vs_K562_reso_10k_chr1.txt res/adjusted_chr1.tsv --filter true
+python src/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1_50M_temp.txt res/GM12878_vs_K562_chr1_50M_adjusted_filter.tsv --filter true
 ```
 
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
