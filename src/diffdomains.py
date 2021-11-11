@@ -69,7 +69,7 @@ if(opts['dvsd']):
 if(opts['visualization']):
     #
     def save_fig(fig_id, tight_layout=True, fig_extension="pdf", resolution=600):
-        path = os.path.join("res/images", fig_id + "." + fig_extension)
+        path = os.path.join(fig_id + "." + fig_extension)
         print("Saving figure", fig_id)
         if tight_layout:
             plt.tight_layout()
