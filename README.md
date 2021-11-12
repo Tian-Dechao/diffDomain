@@ -96,7 +96,7 @@ python src/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1_50M_te
 For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
 Example visualization outputs are shown below. 
 
-![reorganized TADs on chr1](/figures/TADs_chr1.jpg)
+![reorganized TADs on chr1](/figures/TADs_chr1.png)
 
 ### Identifying GM12878 TADs that are reorganized in  K562, using all TADs.
 Data is using Amazon.
