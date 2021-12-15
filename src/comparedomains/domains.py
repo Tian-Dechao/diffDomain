@@ -60,8 +60,7 @@ def makewindow2(start, end, reso):
     k1 = start / reso
     k2 = end / reso
     l2 = end % reso
-    ###huadm 2021.11.8 add =
-    if l2 >= 0:
+    if l2 > 0:
         k2 += 1
 
     wins = [ _*reso for _ in range(k1, k2)]
@@ -86,7 +85,6 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
     mat[:] = np.nan
     # find the edgelist from .hic
     region = "{0}:{1}:{2}".format(chrn, domwin[0], domwin[-1])
-    print(region)
     if fhic[-4:] == '.hic':
         try:
             el = straw.straw(hicnorm, fhic, region, region, 'BP', reso)
@@ -113,7 +111,6 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
         hf = h5py.File(fhic,'r')
         regions = "{0}:{1}:{2}".format(chrn, start, end)
         el = hf.get(regions)
-        print(regions)
         el = np.array(el) # transform to numpy format
 
         for i in range(len(el[2])):
