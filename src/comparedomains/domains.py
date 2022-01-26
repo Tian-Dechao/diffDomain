@@ -28,13 +28,11 @@ def loadtads(inpath, sep, chrnum, reso, min_nbin): # SyntaxError:non-default arg
         tadb.append(col[:3])
 
     fin.close()
-
     tadb = pd.DataFrame(tadb)
     tadb[[1,2]] = tadb[[1,2]].astype(int)
     # format the chromosomal names
     if 'chr' in tadb.iloc[0,0]:
         tadb[0] = tadb[0].str.replace('chr', '')
-
     if chrnum != 'ALL':
         ind = tadb[0] == chrnum
         tadb = tadb[ind] #tadb = [_ for _ in tadb if _[0]==chrnum]
@@ -45,22 +43,13 @@ def loadtads(inpath, sep, chrnum, reso, min_nbin): # SyntaxError:non-default arg
 
     return tadb
 
-def makewindow(x, reso):
-#huadm
-
-    k = x / reso
-    l = x % reso
-    wins = [_*reso for _ in range(k) ]
-    if(l>0):
-        wins.append(k*reso)
-
-    return wins
 
 def makewindow2(start, end, reso):
     k1 = start / reso
     k2 = end / reso
     l2 = end % reso
-    if l2 > 0:
+    ###huadm 2021.11.8 add =
+    if l2 >= 0:
         k2 += 1
 
     wins = [ _*reso for _ in range(k1, k2)]
@@ -71,6 +60,7 @@ def compute_nbins(start, end, reso):
     domwin = makewindow2(start, end, reso)
     # create index for domwin
     nb = len(domwin)
+
     return nb
 
 def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
@@ -112,7 +102,6 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
         regions = "{0}:{1}:{2}".format(chrn, start, end)
         el = hf.get(regions)
         el = np.array(el) # transform to numpy format
-
         for i in range(len(el[2])):
             bin0 = el[0][i]
             bin1 = el[1][i]
