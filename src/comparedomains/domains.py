@@ -1,6 +1,6 @@
 from collections import defaultdict
 import numpy as np
-import straw
+from straw import straw
 import TracyWidom as tw
 import gzip
 import pandas as pd
