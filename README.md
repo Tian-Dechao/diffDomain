@@ -257,24 +257,24 @@ types = pydiff.classification(result_adj,tadlist)
 # Summary
 ## Command line
 
-Usage:
-    scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]
-    scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
-    scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]
-    scriptname adjustment \<method> \<input> \<output> [options]
+**Usage:**  
+    scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
+    scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]  
+    scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
+    scriptname adjustment \<method> \<input> \<output> [options]  
 
-Options:
-    --ofile filepath for output file  [default: stdout]
-    --oprefix prefix for output files
-    --oprefixFig prefix for output figures
-    --sep deliminator for hicfile  [default: \t]
-    --hicnorm hic matrix normalization method  [default: KR]
-    --chrn chromosome number  [default: ALL]
-    --reso resolution for hicfile  [default: 100000]
-    --ncore number of parallel process  [default: 10]
-    --min_nbin effective number of bin  [default: 10]
-    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]
-    --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]
+**Options:**  
+    --ofile filepath for output file  [default: stdout]  
+    --oprefix prefix for output files  
+    --oprefixFig prefix for output figures  
+    --sep deliminator for hicfile  [default: \t]  
+    --hicnorm hic matrix normalization method  [default: KR]  
+    --chrn chromosome number  [default: ALL]  
+    --reso resolution for hicfile  [default: 100000]  
+    --ncore number of parallel process  [default: 10]  
+    --min_nbin effective number of bin  [default: 10]  
+    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
+    --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]  
   
 ## Python
   
