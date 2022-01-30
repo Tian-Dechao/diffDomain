@@ -258,10 +258,10 @@ types = pydiff.classification(result_adj,tadlist)
 ## Command line
 
 Usage:
-    scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
-    scriptname dvsd multiple <hic0> <hic1> <bed> [options]
-    scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
-    scriptname adjustment <method> <input> <output> [options]
+    scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]
+    scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
+    scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]
+    scriptname adjustment \<method> \<input> \<output> [options]
 
 Options:
     --ofile filepath for output file  [default: stdout]
@@ -278,7 +278,7 @@ Options:
   
 ## Python
   
-- diffdomain_one(<chr>,<start>,<end>,<hic0>,<hic1>,[options])
+- diffdomain_one(\<chr>,\<start>,\<end>,\<hic0>,\<hic1>,[options])
     
     --chr chromosome number  
     --start the start position of the domain tested by this func  
@@ -292,7 +292,7 @@ Options:
     --min_nbin effective number of bin  [default: 10]  
     --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
  
-- diffdomain_multiple(<fhic0>,<fhic1>,<fbed>,[options])  
+- diffdomain_multiple(\<fhic0>,\<fhic1>,\<fbed>,[options])  
 
     --fhic0 the filepath of the first hic file  
     --fhic1 the filepath of the second hic file  
@@ -307,7 +307,7 @@ Options:
     --min_nbin effective number of bin  [default: 10]  
     --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
 
-- adjustment(<inputdf>,<Filter>,[options])  
+- adjustment(\<inputdf>,\<Filter>,[options])  
     
     --inputdf the result of diffdomain_multiple (pd.DataFrame)  
     
@@ -317,7 +317,7 @@ Options:
     --method adjustment method you want to use [default: 'fdr_bh']  
     --sort wheter to sort the result [default: False]  
   
-- visualization(<chr>,<start>,<end>,<fhic0>,<fhic1>,[options])   
+- visualization(\<chr>,\<start>,\<end>,\<fhic0>,\<fhic1>,[options])   
     
     --chr chromosome number  
     --start the start position of the domain visulized by the func  
@@ -330,7 +330,7 @@ Options:
     --reso resolution for hicfile  [default: 100000]  
     --hicnorm hic matrix normalization method [default: 'KR']  
   
-- classification(<result_adj_df>,<tadlist_df>,[options])  
+- classification(\<result_adj_df>,\<tadlist_df>,[options])  
   
     --result_adj_df the dateframe of adjusted outcome of diffdomain_multiple  
     --tadlist_df the tadlist(dataframe) of the second hic file  
