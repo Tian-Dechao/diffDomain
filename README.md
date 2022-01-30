@@ -83,8 +83,8 @@ conda install python=2.7
 pip install diffDomain
 # in this steps, requirements will be installed automatically
 ```
-## Method 3
-You can use diffDomain in Docker
+### Method 3
+You can use diffDomain in a Docker's container by pulling diffDomain's image based on centos7: 
 ```
 docker pull guming5/centos7:diffDomain
 ```
@@ -246,7 +246,7 @@ In Python:
 ```
 """
  You should ensure that you have not 
-  taken a row of tad as the header of the dataframe.
+  taken a row of TAD as the header of the dataframe.
 """
 tadlist = pd.read_table('data/GSE63525_K562_Arrowhead_domainlist.txt',header=None)
 
@@ -254,8 +254,93 @@ types = pydiff.classification(result_adj,tadlist)
 
 ```
 
+# Summary
+## Command line
 
+Usage:
+    scriptname dvsd one <chr> <start> <end> <hic0> <hic1> [options]
+    scriptname dvsd multiple <hic0> <hic1> <bed> [options]
+    scriptname visualization <chr> <start> <end> <hic0> <hic1> [options]
+    scriptname adjustment <method> <input> <output> [options]
 
+Options:
+    --ofile filepath for output file  [default: stdout]
+    --oprefix prefix for output files
+    --oprefixFig prefix for output figures
+    --sep deliminator for hicfile  [default: \t]
+    --hicnorm hic matrix normalization method  [default: KR]
+    --chrn chromosome number  [default: ALL]
+    --reso resolution for hicfile  [default: 100000]
+    --ncore number of parallel process  [default: 10]
+    --min_nbin effective number of bin  [default: 10]
+    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]
+    --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]
+  
+## Python
+  
+- diffdomain_one(<chr>,<start>,<end>,<hic0>,<hic1>,[options])
+    
+    --chr chromosome number
+    --start the start position of the domain tested by this func
+    --end the end position of the domain
+    --fhic0 the path of the first hic file
+    --fhic1 the path of the second hic file
+    
+    Opts:
+    --reso resolution for hicfile  [default: 100000]
+    --hicnorm hic matrix normalization method [default: 'KR']
+    --min_nbin effective number of bin  [default: 10]
+    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]
+ 
+- diffdomain_multiple(<fhic0>,<fhic1>,<fbed>,[options])
+
+    --fhic0 the filepath of the first hic file
+    --fhic1 the filepath of the second hic file
+    --fbed the filepath of TADs' list that you want to test,it usually is the tadlist of hic0(the first hic file)
+
+    Options:
+    --sep deliminator for hicfile  [default: '\t']
+    --hicnorm hic matrix normalization method  [default: 'KR']
+    --chrn chromosome number  [default: 'ALL']
+    --reso resolution for hicfile  [default: 100000]
+    --ncore number of parallel process  [default: 10]
+    --min_nbin effective number of bin  [default: 10]
+    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]
+
+- adjustment(<inputdf>,<Filter>,[options])
+    
+    --inputdf the result of diffdomain_multiple (pd.DataFrame)
+    
+    Options:
+    --alpha the threshold of adjusted pvalue [default: 0.05]
+    --Filter As long as the pvalue of TADs is less than alpha after adjustment if argument is true [True/False, default: False]
+    --method adjustment method you want to use [default: 'fdr_bh']
+    --sort wheter to sort the result [default: False]
+  
+- visualizing(<chr>,<start>,<end>,<fhic0>,<fhic1>,[options])
+    
+    --chr chromosome number
+    --start the start position of the domain visulized by the func
+    --end the end position of the domain visulized by the func
+    --fhic0 the filepath of the first hic file
+    --fhic1 the filepath of the second hic file
+    --ofile filepath for output file
+   
+    Options:
+    --reso resolution for hicfile  [default: 100000]
+    --hicnorm hic matrix normalization method [default: 'KR']
+  
+- classification(<result_adj_df>,<tadlist_df>,[options])
+    --result_adj_df the dateframe of adjusted outcome of diffdomain_multiple
+    --tadlist_df the tadlist(dataframe) of the second hic file
+    
+    Options:
+    --alpha the threshold of adjusted p-value
+    --limit length of bases, within which the boundaries will be judged as common boundaries [default: 40000]
+    --kpercent the common boundareis are within max(l*bin,k% TAD's length) [default: 10]
+    --remote the limitation of the biggeset region
+    --ofile the filepath of output file
+  
 # Contact information
 
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn, Ming Gu at guming5@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
