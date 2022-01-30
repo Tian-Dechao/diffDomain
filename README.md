@@ -51,23 +51,53 @@ diffDomain is dependent on
 - docopt 0.6.2
 - matplotlib 1.5.1
 - statsmodels 0.6.1
+- h5py 2.9.0
+- seaborn 0.9.0
 
 ## Installation
 
+You can choose one of following three methods. 
 
-Download diffDomain source package by running following command in a terminal:
+### Method 1
+
+First of all, you should have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html). Then you should create a new independent environment for diffDomain, and download diffDomain source package by running following command in a terminal:
 
 ```
+conda create -n diffDomain # the name of the new environment
+conda activate diffDomain # to activate the new environment
+conda install python=2.7 
+# in this step, pip 20.1.1 should be installed automatically
+
 git clone https://github.com/Tian-Dechao/diffDomain.git
+cd diffDomain
+pip install requirements.txt
+
 ```  
-or :
+
+### Method 2
 ```
+conda create -n diffDomain # the name of the new environment
+conda activate diffDomain # to activate the new environment
+conda install python=2.7 
+# in this step, pip 20.1.1 should be installed automatically
 pip install diffDomain
+# in this steps, requirements will be installed automatically
 ```
+## Method 3
+You can use diffDomain in Docker
+```
+docker pull guming5/centos7:diffDomain
+```
+## Questions
+if you don't use the 3rd installation method, you will encounter the following question, please don't  be too worried.
+- **AttributeError: 'function' object has no attribute 'straw'** :
+You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the error, for example "/home/gum/.conda/envs/diffDomain/lib/python2.7/site-packages/straw/__ init_.py" ) and then deleted the sentence “straw = straw_module.straw”
 
 ## Get started with example usage
-
-
+  
+Note:  
+If you download diffDomain by github, the flowing "diffdomain/……" pathway means "src/……"   
+  
 We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
 Example data saved in `<data/>`:
 1. GM12878 TADs. 
@@ -89,8 +119,12 @@ python diffdomain/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/
 In Python:
 
 ```
-from diffdomain import pydiff 
-
+from diffdomain import pydiff   
+# from diffdomain not diffDomain or DiffDomain
+"""
+ If you want to use diffDomain in Python,
+ please use APIs in diffdomain.pydiff
+"""
 result = pydiff.diffdomain_one(chr = 1,start = 163500000,
     end = 165000000,
     fhic0 = 'data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt', 
@@ -200,6 +234,8 @@ In Python, the result will be returned as a dataframe.
 
 - Classification of TADs
 
+In this step, you will need the tadlist of the second hic file.
+
 Running the command:
 
 ```
@@ -208,13 +244,16 @@ python diffdomain/classificattion.py -d adjusted_TADs2.txt -t GSE63525_K562_Arro
 In Python:
 
 ```
-from diffdomain import classification
-
-tadlist = pd.read_table('data/GSE63525_K562_Arrowhead_domainlist.txt')
+"""
+ You should ensure that you have not 
+  taken a row of tad as the header of the dataframe.
+"""
+tadlist = pd.read_table('data/GSE63525_K562_Arrowhead_domainlist.txt',header=None)
 
 types = pydiff.classification(result_adj,tadlist)
 
 ```
+
 
 
 # Contact information
