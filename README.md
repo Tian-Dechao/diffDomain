@@ -89,7 +89,7 @@ You can use diffDomain in Docker
 docker pull guming5/centos7:diffDomain
 ```
 ## Questions
-if you don't use the 3rd installation method, you will encounter the following question, please don't  be too worried.
+if you don't use the 3rd installation method, you will encounter the following question when you import diffdomain. Please don't  be too worried.
 - **AttributeError: 'function' object has no attribute 'straw'** :
 You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the error, for example "/home/gum/.conda/envs/diffDomain/lib/python2.7/site-packages/straw/__ init_.py" ) and then deleted the sentence “straw = straw_module.straw”
 
