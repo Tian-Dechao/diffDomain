@@ -41,55 +41,49 @@ diffDomain is tested on MacOS & Linux (Centos).
 
 ## Dependences
 
-
-diffDomain is dependent on 
+diffDomain-py2 is dependent on 
 - Python 2.7
-- hic-straw 0.0.6
-- TracyWidom 0.3.0
-- pandas 0.18.1
-- numpy 1.15.0
-- docopt 0.6.2
-- matplotlib 1.5.1
-- statsmodels 0.6.1
-- h5py 2.9.0
-- seaborn 0.9.0
+- hic-straw==0.0.6 
+
+diffDomain-py3 is dependent on
+- Python 3
+- hic-straw==1.3.1
+
+and
+- TracyWidom 
+- pandas 
+- numpy 
+- docopt 
+- matplotlib 
+- statsmodels
+- h5py 
+- seaborn
+
+Note: You should have installed libgcc.
 
 ## Installation
 
-You can choose one of following three methods. 
+You can choose one of following methods. 
 
-### Method 1
+### to install python3 version from pypi
+
+```
+pip install diffDomain-py3
+```
+
+### to clone this repository
 
 First of all, you should have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html). Then you should create a new independent environment for diffDomain, and download diffDomain source package by running following command in a terminal:
 
 ```
-conda create -n diffDomain # the name of the new environment
-conda activate diffDomain # to activate the new environment
-conda install python=2.7 
-# in this step, pip 20.1.1 should be installed automatically
-
 git clone https://github.com/Tian-Dechao/diffDomain.git
 cd diffDomain
 pip install requirements.txt
 
 ```  
 
-### Method 2
-```
-conda create -n diffDomain # the name of the new environment
-conda activate diffDomain # to activate the new environment
-conda install python=2.7 
-# in this step, pip 20.1.1 should be installed automatically
-pip install diffDomain
-# in this steps, requirements will be installed automatically
-```
-### Method 3
-You can use diffDomain in a Docker's container by pulling diffDomain's image based on centos7: 
-```
-docker pull guming5/centos7:diffDomain
-```
 ## Questions
-If you don't use the 3rd installation method, you will encounter the following question when you import diffdomain. Please don't  be too worried.
+If you encounter the following question, please don't  be too worried.
 - **AttributeError: 'function' object has no attribute 'straw'** :
 You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the error, for example "/home/gum/.conda/envs/diffDomain/lib/python2.7/site-packages/straw/__ init_.py" ) and then deleted the sentence “straw = straw_module.straw”
 
@@ -116,23 +110,6 @@ Running the command
 ```
 python diffdomain/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt --reso 10000 --ofile res/chr1_163500000_165000000.txt
 ```
-In Python:
-
-```
-from diffdomain import pydiff   
-# from diffdomain not diffDomain or DiffDomain
-"""
- If you want to use diffDomain in Python,
- please use APIs in diffdomain.pydiff
-"""
-result = pydiff.diffdomain_one(chr = 1,start = 163500000,
-    end = 165000000,
-    fhic0 = 'data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt', 
-    fhic1 = 'data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt',
-    reso = 10000
-    )
-```
-In Python, pydiff.diffdomain_one will return the dataframe of result.
 
 diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
 
@@ -142,15 +119,6 @@ Figure are saved in `<res/images/>`.
 
 ```
 python diffdomain/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt --reso 10000 --ofile res/images/side_by_side
-```
-In Python:
-```
-pydiff.visualization(chr=1,start=163500000,end=165000000,
-    fhic0 = 'data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt',
-    fhic1 = 'data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt',
-    reso = 10000
-    ofile = 'res/images/side_by_side'
-    )
 ```
 
 Note: in this example, there is no need to do multiple comparison adjustment. 
@@ -166,16 +134,6 @@ chr1_50M_domainlist are saved in `<data/TADs_chr1/>`.
 ```
 python diffdomain/diffdomains.py dvsd multiple data/TADs_chr1/chr1_50M_GM12878.h5 data/TADs_chr1/chr1_50M_K562.h5 data/TADs_chr1/GM12878_chr1_50M_domainlist.txt --reso 10000 --ofile res/temp/GM12878_vs_K562_chr1_50M_temp.txt
 ```
-In Python:
-
-```
-result_mul = pydiff.diffdomain_multiple(fhic0='data/TADs_chr1/chr1_50M_GM12878.h5',
-    fhic1 = 'data/TADs_chr1/chr1_50M_K562.h5',
-    fbed = 'data/TADs_chr1/GM12878_chr1_50M_domainlist.txt',
-    reso = 10000
-    )
-```
-The function pydiff.diffdomain_multiple will return the dataframe of result_mul.
 
 - Adjusting multiple comparisons by *BH* method (default, Optional parameters: *fdr_by*, *bonferroni*, *holm*, *hommel* etc.) and Filtering out reorganized TADs with *BH < 0.05*
 - Usage: scriptname adjustment \<method> \<input> \<output> 
@@ -198,24 +156,12 @@ Data is using Amazon.
 ```
 python diffdomain/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
 ```
-In Python:
-```
-result_mul = pydiff.diffdomain_multiple(fhic0='https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic',
-    fhic1 = 'https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic',
-    fbed = 'data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt'
-    )
-```
 
 - MultiComparison adjustment.
 
 ```
 python diffdomain/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1_50M_temp.txt res/adjusted_TADs2.txt 
 ```
-In Python:
-```
-result_adj = pydiff.adjustment(inputdf = result_mul,method='fdr_bh')
-```
-The function of pydiff.adjustment will return the dataframe of result_adj (adjusted result_mul by BH).
 
 - optional parameter **[--filter]**, Filtering out reorganized TADs with *BH < 0.05*.
 
@@ -224,13 +170,6 @@ python diffdomain/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1
 ```
 The final output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`.
 
-In Python:
-```
-result_adj_filter = pydiff.adjustment(inputdf = result_mul,method='fdr_bh',
-    Filter=True
-    )
-```
-In Python, the result will be returned as a dataframe.
 
 - Classification of TADs
 
@@ -241,27 +180,16 @@ Running the command:
 ```
 python diffdomain/classificattion.py -d adjusted_TADs2.txt -t GSE63525_K562_Arrowhead_domainlist.txt 
 ```
-In Python:
 
-```
-"""
- You should ensure that you have not 
-  taken a row of TAD as the header of the dataframe.
-"""
-tadlist = pd.read_table('data/GSE63525_K562_Arrowhead_domainlist.txt',header=None)
-
-types = pydiff.classification(result_adj,tadlist)
-
-```
 
 # Summary
-## Command line
 
+## Main method
 **Usage:**  
-    scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
-    scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]  
-    scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
-    scriptname adjustment \<method> \<input> \<output> [options]  
+    python diffdomains.py dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
+    python diffdomains.py dvsd multiple \<hic0> \<hic1> \<tadlist_of_condition1.bed> [options]  
+    python diffdomains.py visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
+    python diffdomains.py adjustment \<method> \<input> \<output> [options] 
 
 **Options:**  
     --ofile filepath for output file  [default: stdout]  
@@ -275,74 +203,28 @@ types = pydiff.classification(result_adj,tadlist)
     --min_nbin effective number of bin  [default: 10]  
     --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
     --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]  
-  
-## Python
-  
-- diffdomain_one(\<chr>,\<start>,\<end>,\<hic0>,\<hic1>,[options])
-    
-    --chr chromosome number  
-    --start the start position of the domain tested by this func  
-    --end the end position of the domain    
-    --fhic0 the path of the first hic file  
-    --fhic1 the path of the second hic file  
-    
-    Opts:  
-    --reso resolution for hicfile  [default: 100000]  
-    --hicnorm hic matrix normalization method [default: 'KR']  
-    --min_nbin effective number of bin  [default: 10]  
-    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
- 
-- diffdomain_multiple(\<fhic0>,\<fhic1>,\<fbed>,[options])  
 
-    --fhic0 the filepath of the first hic file  
-    --fhic1 the filepath of the second hic file  
-    --fbed the filepath of TADs' list that you want to test,it usually is the tadlist of hic0(the first hic file)  
+## Classification
+**Usage**
+    python classification.py -d \<result_of_diffdomains.py_multiple> -t \ <tadlist_of_condition2> [options]
 
-    Options:
-    --sep deliminator for hicfile  [default: '\t']  
-    --hicnorm hic matrix normalization method  [default: 'KR']  
-    --chrn chromosome number  [default: 'ALL']  
-    --reso resolution for hicfile  [default: 100000]  
-    --ncore number of parallel process  [default: 10]  
-    --min_nbin effective number of bin  [default: 10]  
-    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
+**options**    
+    --limit length of bases, within which the boundaries will be judged as common boundaries [default: 30000]
+    --out the filename of output [default: name_of_-d_types.txt]
+    --kpercent the common boundareis are within max(l*bin,k% TAD's length) [default: 10]
+    --remote the limitation of the biggeset region [default: 1000000]
+    --s1 int, to skip the first s1 rows in -d [default: 0]
+    --s2 int, to skip the first s2 rows in -t [default: 0]
+    --sep1 the separater of -d [default: \t]
+    --sep2 the separater of -t [default: \t]
+    
+Note: You can set the --limit to adjust the 'common boundary'.
+As said in paper,we use '3bin' as the filter of common boundaies.
+That means if we use the 10kb resolution, we will set --limit as 30000, and if 25kb resolution, --limit will be 75000.
 
-- adjustment(\<inputdf>,\<Filter>,[options])  
-    
-    --inputdf the result of diffdomain_multiple (pd.DataFrame)  
-    
-    Options:  
-    --alpha the threshold of adjusted pvalue [default: 0.05]  
-    --Filter As long as the pvalue of TADs is less than alpha after adjustment if argument is true [True/False, default: False]  
-    --method adjustment method you want to use [default: 'fdr_bh']  
-    --sort wheter to sort the result [default: False]  
+
   
-- visualization(\<chr>,\<start>,\<end>,\<fhic0>,\<fhic1>,[options])   
-    
-    --chr chromosome number  
-    --start the start position of the domain visulized by the func  
-    --end the end position of the domain visulized by the func  
-    --fhic0 the filepath of the first hic file  
-    --fhic1 the filepath of the second hic file  
-    --ofile filepath for output file  
-   
-    Options:    
-    --reso resolution for hicfile  [default: 100000]  
-    --hicnorm hic matrix normalization method [default: 'KR']  
-  
-- classification(\<result_adj_df>,\<tadlist_df>,[options])  
-  
-    --result_adj_df the dateframe of adjusted outcome of diffdomain_multiple  
-    --tadlist_df the tadlist(dataframe) of the second hic file  
-    
-    Options:  
-    --alpha the threshold of adjusted p-value  
-    --limit length of bases, within which the boundaries will be judged as common boundaries [default: 40000]  
-    --kpercent the common boundareis are within max(l*bin,k% TAD's length) [default: 10]  
-    --remote the limitation of the biggeset region  
-    --ofile the filepath of output file  
-    
-  
+
 # Contact information
 
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn, Ming Gu at guming5@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
