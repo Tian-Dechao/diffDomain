@@ -205,21 +205,22 @@ python diffdomain/classificattion.py -d adjusted_TADs2.txt -t GSE63525_K562_Arro
     --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]  
 
 ## Classification
-**Usage**
+**Usage:**  
     python classification.py -d \<result_of_diffdomains.py_multiple> -t \ <tadlist_of_condition2> [options]
 
 **options**    
-    --limit length of bases, within which the boundaries will be judged as common boundaries [default: 30000]
-    --out the filename of output [default: name_of_-d_types.txt]
-    --kpercent the common boundareis are within max(l*bin,k% TAD's length) [default: 10]
-    --remote the limitation of the biggeset region [default: 1000000]
-    --s1 int, to skip the first s1 rows in -d [default: 0]
-    --s2 int, to skip the first s2 rows in -t [default: 0]
-    --sep1 the separater of -d [default: \t]
-    --sep2 the separater of -t [default: \t]
+    --limit length of bases, within which the boundaries will be judged as common boundaries [default: 30000]  
+    --out the filename of output [default: name_of_-d_types.txt] .  
+    --kpercent the common boundareis are within max(l*bin,k% TAD's length) [default: 10] . 
+    --remote the limitation of the biggeset region [default: 1000000]  
+    --s1 int, to skip the first s1 rows in -d [default: 0]  
+    --s2 int, to skip the first s2 rows in -t [default: 0]   
+    --sep1 the separater of -d [default: \t]    
+    --sep2 the separater of -t [default: \t]   
     
-Note: You can set the --limit to adjust the 'common boundary'.
-As said in paper,we use '3bin' as the filter of common boundaies.
+Note:   
+You can set the --limit to adjust the 'common boundary'.  
+As said in paper,we use '3bin' as the filter of common boundaies.  
 That means if we use the 10kb resolution, we will set --limit as 30000, and if 25kb resolution, --limit will be 75000.
 
 
