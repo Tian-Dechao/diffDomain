@@ -98,7 +98,7 @@ Example data saved in `<data/>`:
   3. K562 combined Hi-C data on Chr1.
 
 **Hi-C data**  
-- If the name of you hic data ends with '.hic', we will extract its data by hicstraw from [Aiden Lab](https://github.com/igvteam/hic-straw/).
+- If the name of you hic data ends with '.hic', we will extract its data by hicstraw from [Aiden Lab](https://github.com/aidenlab/straw).
 - If the name of your hic data ends with '.h5', we will read it by h5py.
 - In other conditons, we will read it as a tsv file ('\t' separeted).
 
