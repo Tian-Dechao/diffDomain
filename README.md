@@ -89,14 +89,23 @@ You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the 
 
 ## Get started with example usage
   
-Note:  
-If you download diffDomain by github, the flowing "diffdomain/……" pathway means "src/……"   
+### Data description:  
   
 We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
 Example data saved in `<data/>`:
 1. GM12878 TADs. 
-2. GM12878 combined Hi-C data on Chr1 that is extracted by [Juicebox](https://github.com/aidenlab/Juicebox) with resolution at 10 kb and normalization method at KR. The produced Hi-C data is 3-column: column 1 and column 2 are chromosomal bins, column 3 is KR normalized contact frequencies between the two bins.
-3. K562 combined Hi-C data on Chr1. Settings are the same as GM12878.
+2. GM12878 combined Hi-C data on Chr1.
+3. K562 combined Hi-C data on Chr1.
+
+** Hi-C data **
+- If your hic data is named as '.hic', we will extract its data by hicstraw from AidenLab(https://github.com/aidenlab/Juicebox)
+- If your hic data is named as '.h5', we will read it by h5py.
+- In other conditons, we will read it as a tsv file ('\t' separeted).
+
+** TADs list **
+In 'dvsd multiple', we expect a bed file of TADs(tadlist) like below, whose first column is chromosome name, second column is the locus where the TAD starts, and third column is the locus where the TAD ends. We will only use the first 3 columns in a tadlist (framed in red). And whatever its column names are, it should have a header (framed in green).
+![a tadlist demo](/figures/tadlist_demo.png)
+
 
 ### Testing if one TAD is reorganized
 
