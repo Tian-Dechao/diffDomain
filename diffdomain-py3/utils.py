@@ -42,9 +42,9 @@ def loadtads(inpath, sep, chrnum, reso, min_nbin): # SyntaxError:non-default arg
     tadb = pd.DataFrame(tadb)
     tadb.iloc[:,1:3] = tadb.iloc[:,1:3].astype(int)
 
-    # format the chromosomal names
-    if 'chr' in tadb.iloc[0,0]:
-        tadb[0] = tadb[0].str.replace('chr', '')
+#     format the chromosomal names
+#     if 'chr' in tadb.iloc[0,0]:
+#         tadb[0] = tadb[0].str.replace('chr', '')
 
     if chrnum != 'ALL':
         ind = tadb[0] == chrnum
