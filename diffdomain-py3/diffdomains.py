@@ -59,6 +59,11 @@ if(opts['dvsd']):
              fhic0=opts['<hic0>'], fhic1=opts['<hic1>'],min_nbin=int(opts['--min_nbin']),f=opts['--f'])
             return tmp_res
         if __name__=='__main__':
+            try:
+                # if the hicstraw can not find the chromosomes
+                # it will directly end the script
+                # without any exception !!
+                comp2domins_by_twtest_parallel(0)
             P = Pool(int(opts['--ncore']))
             note = []
             for i in range(tadb.shape[0]):
