@@ -44,7 +44,7 @@ opts_df.index = '#' + opts_df.index
 if(opts['dvsd']):
     if opts['one']:
         result = comp2domins_by_twtest(chrn=opts['<chr>'], start=int(opts['<start>']), end=int(opts['<end>']), reso=int(opts['--reso']), hicnorm=opts['--hicnorm'], fhic0=opts['<hic0>'], fhic1=opts['<hic1>'], min_nbin=int(opts['--min_nbin']), f=opts['--f'])
-        result = pd.DataFrame(result)
+        result = pd.DataFrame(result).T
         print(result)
         opts_df.to_csv(opts['--ofile'], sep='\t', index=True, header=False)
         result.to_csv(opts['--ofile'], sep='\t', index=False, header=False, mode='a')
