@@ -303,14 +303,14 @@ def comp2domins_by_twtest(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbi
 
                 result = twtest_formula(Diffmatnorm)
 
-                domname = 'chr%s:%s-%s' % (chrn, start, end)
+                domname = '%s:%s-%s' % (chrn, start, end)
                 result = [chrn, start, end, domname, result[1], result[2], result[0]]
             else:
-                domname = 'chr%s:%s-%s' % (chrn, start, end)
+                domname = '%s:%s-%s' % (chrn, start, end)
                 print('The length of this TAD is too small at this resolution to be calculated !')
                 result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
         else:
-            domname = 'chr%s:%s-%s' % (chrn, start, end)
+            domname = '%s:%s-%s' % (chrn, start, end)
             result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
             print('The matrix is too spase at this resolution to be calculated !')
 
