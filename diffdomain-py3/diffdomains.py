@@ -64,20 +64,21 @@ if(opts['dvsd']):
                 # it will directly end the script
                 # without any exception !!
                 comp2domins_by_twtest_parallel(0)
-            P = Pool(int(opts['--ncore']))
-            note = []
-            for i in range(tadb.shape[0]):
-                note.append(P.apply_async(comp2domins_by_twtest_parallel, [i]))
-            P.close()
-            P.join()
-            result = []
-            for i in note:
-                result.append(i.get())
-            result = pd.DataFrame(result)
+            finally:
+                P = Pool(int(opts['--ncore']))
+                note = []
+                for i in range(tadb.shape[0]):
+                    note.append(P.apply_async(comp2domins_by_twtest_parallel, [i]))
+                P.close()
+                P.join()
+                result = []
+                for i in note:
+                    result.append(i.get())
+                result = pd.DataFrame(result)
 
-            # first the options; then the result
-            opts_df.to_csv(opts['--ofile'], sep='\t', index=True, header=False)
-            result.to_csv(opts['--ofile'], sep='\t', index=False, header=False, mode='a')
+                # first the options; then the result
+                opts_df.to_csv(opts['--ofile'], sep='\t', index=True, header=False)
+                result.to_csv(opts['--ofile'], sep='\t', index=False, header=False, mode='a')
 
 elif(opts['visualization']):
     #
