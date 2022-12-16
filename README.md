@@ -201,16 +201,16 @@ python diffdomain/classificattion.py -d adjusted_TADs2.txt -t GSE63525_K562_Arro
     python diffdomains.py adjustment \<method> \<input> \<output> [options] 
 
 **Options:**  
+    --reso resolution for hicfile  [default: 100000] 
+    --min_nbin effective number of bin  [default: 10]  
+    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5] For example, when setting ‘--f 0.6’, in the contact matrix of a TAD, if the number of the columns, whose proportions of missing values is higher than 40%, is smaller than min_nbin, DiffDomain will skip comparing this TAD anymore and set its result (statistics, the 5th column ; P value, the 6th column) as NAN.
     --ofile filepath for output file  [default: stdout]  
     --oprefix prefix for output files  
     --oprefixFig prefix for output figures  
     --sep deliminator for hicfile  [default: \t]  
     --hicnorm hic matrix normalization method  [default: KR]  
-    --chrn chromosome number  [default: ALL]  
-    --reso resolution for hicfile  [default: 100000]  
+    --chrn chromosome number  [default: ALL]   
     --ncore number of parallel process  [default: 10]  
-    --min_nbin effective number of bin  [default: 10]  
-    --f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]  
     --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]  
 
 ## Classification
