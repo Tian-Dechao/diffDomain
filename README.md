@@ -86,54 +86,6 @@ pip install requirements.txt
 If you encounter the following question, please don't  be too worried.
 - **AttributeError: 'function' object has no attribute 'straw'** :
 You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the error, for example "/home/gum/.conda/envs/diffDomain/lib/python2.7/site-packages/straw/__ init_.py" ) and then deleted the sentence “straw = straw_module.straw”
-
-  
-# Usage
-
-## Main method
-**Usage:**  
-    python diffdomains.py dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
-    python diffdomains.py dvsd multiple \<hic0> \<hic1> \<tadlist_of_condition1.bed> [options]  
-    python diffdomains.py visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]  
-    python diffdomains.py adjustment \<method> \<input> \<output> [options] 
-
-**Options:**  
-    --reso resolution for hicfile  [default: 100000]   
-    --min_nbin effective number of bin  [default: 10]    
-    --f parameter for filtering the null values of the matrix[0~1)  [default: 0.5] For example, when setting ‘--f 0.6’, in the contact matrix of a TAD, if the number of the columns, whose proportions of missing values is higher than 40%, is smaller than min_nbin, DiffDomain will skip comparing this TAD anymore and set its result (statistics, the 5th column ; P value, the 6th column) as NAN.   
-    --ofile filepath for output file  [default: stdout]  
-    --oprefix prefix for output files  
-    --oprefixFig prefix for output figures  
-    --sep deliminator for hicfile  [default: \t]  
-    --hicnorm hic matrix normalization method  [default: KR]  
-    --chrn chromosome number  [default: ALL]   
-    --ncore number of parallel process  [default: 10]  
-    --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]  
-  
-**Note:**
-  1. for most of the bulk Hi-C data, such as hic data in Adiden [Reference], results is not sensitive to the exact value of --f.  
-  2. For single-cell Hi-C data, recommend users try multiple values of --f and choose one with acceptable number of TADs compared. Due to high sparisity in single-cell Hi-C data and variation in imputation methods (such as scHiCluster, Higashi, scVI-3D), we did not set a default value of --f.  
-
-## Classification
-**Usage:**  
-    python classification.py -d \<result_of_diffdomains.py_multiple> -t \ <tadlist_of_condition2> [options]
-
-**options**    
-    --limit length of bases, within which the boundaries will be judged as common boundaries [default: 30000]  
-    --out the filename of output [default: name_of_-d_types.txt] .  
-    --kpercent the common boundareis are within max(l*bin,k% TAD's length) [default: 10] . 
-    --remote the limitation of the biggeset region [default: 1000000]  
-    --s1 int, to skip the first s1 rows in -d [default: 0]  
-    --s2 int, to skip the first s2 rows in -t [default: 0]   
-    --sep1 the separater of -d [default: \t]    
-    --sep2 the separater of -t [default: \t]   
-    
-Note:   
-You can set the --limit to adjust the 'common boundary'.  
-As said in paper,we use '3bin' as the filter of common boundaies.  
-That means if we use the 10kb resolution, we will set --limit as 30000, and if 25kb resolution, --limit will be 75000.
-
-
   
 
 # Contact information
