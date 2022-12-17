@@ -87,111 +87,8 @@ If you encounter the following question, please don't  be too worried.
 - **AttributeError: 'function' object has no attribute 'straw'** :
 You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the error, for example "/home/gum/.conda/envs/diffDomain/lib/python2.7/site-packages/straw/__ init_.py" ) and then deleted the sentence “straw = straw_module.straw”
 
-## Get started with example usage
   
-### Data description:  
-  
-We downloaded data [GEO:GSE63525](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE63525) from Rao et al [(2014)](https://www.sciencedirect.com/science/article/pii/S0092867414014974) for standalone example usage of diffDomain.
-Example data saved in `<data/>`:
-  1. GM12878 TADs. 
-  2. GM12878 combined Hi-C data on Chr1.
-  3. K562 combined Hi-C data on Chr1.
-
-**Hi-C data**  
-- If the name of you hic data ends with '.hic', we will extract its data by hicstraw from [Aiden Lab](https://github.com/aidenlab/straw).
-- If the name of your hic data ends with '.h5', we will read it by h5py.
-- In other conditons, we will read it as a tsv file ('\t' separeted).
-
-**TADs list**  
-In 'dvsd multiple', we expect a bed file of TADs(tadlist) like below, whose first column is chromosome name, second column is the locus where the TAD starts, and third column is the locus where the TAD ends. We will only use the first 3 columns in a tadlist (framed in red). And whatever its column names are, it should have a header (framed in green).
-![a tadlist demo](/figures/tadlist_demo.png)
-
-
-### Testing if one TAD is reorganized
-
-In this example, we tested the GM12878 TAD that is reorganized in K562 (Chr1:163500000-165000000, [Ref](http://dx.doi.org/10.1016/j.molcel.2017.07.022)). 
-Data are saved in `<data/single-TAD/>`.
-
-Running the command 
-
-- Usage: scriptname dvsd one \<chr> \<start> \<end> \<hic0> \<hic1> [options]
-
-```
-python diffdomain/diffdomains.py dvsd one 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt --reso 10000 --ofile res/chr1_163500000_165000000.txt
-```
-
-diffDomain also provide visualization function to visualize Hi-C matrices side-by-side.
-
-- Usage: scriptname visualization \<chr> \<start> \<end> \<hic0> \<hic1> [options]
-
-Figure are saved in `<res/images/>`.
-
-```
-python diffdomain/diffdomains.py visualization 1 163500000 165000000 data/single-TAD/GM12878_chr1_163500000_165000000_res_10k.txt data/single-TAD/K562_chr1_163500000_165000000_res_10k.txt --reso 10000 --ofile res/images/side_by_side
-```
-
-Note: in this example, there is no need to do multiple comparison adjustment. 
-Multiple comparisons adjustment by *BH* will be demonstrated in the next example. 
-
-### Identifying the reorganized TADs on a 50 Mb region (Chr1:1-50,000,000)
-
-In this example, multiple comparison adjustment is requried to adjust the *P*-values.
-chr1_50M_domainlist are saved in `<data/TADs_chr1/>`.
-
-- Usage: scriptname dvsd multiple \<hic0> \<hic1> \<bed> [options]
-
-```
-python diffdomain/diffdomains.py dvsd multiple data/TADs_chr1/chr1_50M_GM12878.h5 data/TADs_chr1/chr1_50M_K562.h5 data/TADs_chr1/GM12878_chr1_50M_domainlist.txt --reso 10000 --ofile res/temp/GM12878_vs_K562_chr1_50M_temp.txt
-```
-
-- Adjusting multiple comparisons by *BH* method (default, Optional parameters: *fdr_by*, *bonferroni*, *holm*, *hommel* etc.) and Filtering out reorganized TADs with *BH < 0.05*
-- Usage: scriptname adjustment \<method> \<input> \<output> 
-
-```
-python diffdomain/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1_50M_temp.txt res/GM12878_vs_K562_chr1_50M_adjusted_filter.tsv --filter true
-```
-
-For interactive integrative analysis, we recommend using the [Nucleome Browser](http://www.nucleome.org/).
-Example visualization outputs are shown below. 
-
-![reorganized TADs on chr1](/figures/TADs_chr1.png)
-
-### Identifying GM12878 TADs that are reorganized in  K562, using all TADs.
-
-Data is using Amazon.
-
-- Identify TADs in multiple chromosomes simultaneously. 
-
-```
-python diffdomain/diffdomains.py dvsd multiple https://hicfiles.s3.amazonaws.com/hiseq/gm12878/in-situ/combined.hic https://hicfiles.s3.amazonaws.com/hiseq/k562/in-situ/combined.hic data/GSE63525_GM12878_primary+replicate_Arrowhead_domainlist.txt --ofile res/temp/temp.txt
-```
-
-- MultiComparison adjustment.
-
-```
-python diffdomain/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1_50M_temp.txt res/adjusted_TADs2.txt 
-```
-
-- optional parameter **[--filter]**, Filtering out reorganized TADs with *BH < 0.05*.
-
-```
-python diffdomain/diffdomains.py adjustment fdr_bh res/temp/GM12878_vs_K562_chr1_50M_temp.txt res/reorganized_TADs_GM12878_K562.tsv --filter true
-```
-The final output is saved to `<res/reorganized_TADs_GM12878_K562.tsv>`.
-
-
-- Classification of TADs
-
-In this step, you will need the tadlist of the second hic file.
-
-Running the command:
-
-```
-python diffdomain/classificattion.py -d adjusted_TADs2.txt -t GSE63525_K562_Arrowhead_domainlist.txt 
-```
-
-
-# Summary
+# Usage
 
 ## Main method
 **Usage:**  
@@ -212,6 +109,10 @@ python diffdomain/classificattion.py -d adjusted_TADs2.txt -t GSE63525_K562_Arro
     --chrn chromosome number  [default: ALL]   
     --ncore number of parallel process  [default: 10]  
     --filter As long as the pvalue of TADs is less than 0.05 after adjustment if argument is true  [default: false]  
+  
+**Note:**
+  1. for most of the bulk Hi-C data, such as hic data in Adiden [Reference], results is not sensitive to the exact value of --f.  
+  2. For single-cell Hi-C data, recommend users try multiple values of --f and choose one with acceptable number of TADs compared. Due to high sparisity in single-cell Hi-C data and variation in imputation methods (such as scHiCluster, Higashi, scVI-3D), we did not set a default value of --f.  
 
 ## Classification
 **Usage:**  
