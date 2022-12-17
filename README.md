@@ -83,7 +83,7 @@ pip install requirements.txt
 ```  
   
 ## Documentation
-Please see the [wiki](https://github.com/Tian-Dechao/diffDomain/wiki) for extensive documentation and example tutorials.
+Please see the [wiki](https://github.com/Tian-Dechao/diffDomain/wiki/0.Usage) for extensive documentation and example tutorials.
 
 # Contact information
 
