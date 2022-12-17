@@ -87,6 +87,8 @@ If you encounter the following question, please don't  be too worried.
 - **AttributeError: 'function' object has no attribute 'straw'** :
 You can open the \_\_init\_\_.py of straw ( its pathway will be reported in the error, for example "/home/gum/.conda/envs/diffDomain/lib/python2.7/site-packages/straw/__ init_.py" ) and then deleted the sentence “straw = straw_module.straw”
   
+## Documentation
+Please see the [wiki](https://github.com/Tian-Dechao/diffDomain/wiki) for extensive documentation and example tutorials.
 
 # Contact information
 
