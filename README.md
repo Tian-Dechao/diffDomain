@@ -59,7 +59,11 @@ and
 - h5py 
 - seaborn
 
-Note: You should have installed libgcc.
+Note: You should have installed libgcc (C compiler that MacOS has naturally), otherwise you may encounter error when installing hicstraw. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily.
+
+```
+conda install libgcc
+```
 
 ## Installation
 
@@ -81,7 +85,7 @@ cd diffDomain
 pip install requirements.txt
 
 ```  
-  
+
 ## Documentation
 Please see the [wiki](https://github.com/Tian-Dechao/diffDomain/wiki/0.Usage) for extensive documentation and example tutorials.
 
