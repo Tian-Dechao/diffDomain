@@ -59,13 +59,15 @@ and
 - h5py 
 - seaborn
 
-Note: You should have installed libgcc (C compiler that MacOS has naturally), otherwise you may encounter error when installing hicstraw. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily.
 
+## Installation
+
+First of all, you should have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html). Then you should create a new independent environment for diffDomain.
+
+Note: You should have installed libgcc (C compiler that MacOS has naturally) before downloading the DiffDomain, otherwise you may encounter error when installing hicstraw that DiffDomain relies on. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily:
 ```
 conda install libgcc
 ```
-
-## Installation
 
 You can choose one of following methods. 
 
@@ -77,7 +79,7 @@ pip install diffDomain-py3
 
 ### to clone this repository
 
-First of all, you should have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html). Then you should create a new independent environment for diffDomain, and download diffDomain source package by running following command in a terminal:
+
 
 ```
 git clone https://github.com/Tian-Dechao/diffDomain.git
