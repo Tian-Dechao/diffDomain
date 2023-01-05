@@ -62,9 +62,10 @@ and
 
 ## Installation
 
-First of all, you should have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html). Then you should create a new independent environment for diffDomain.
+First of all, we recommend you to have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html), and create a new independent environment for diffDomain.
 
-Note: You should have installed libgcc (C compiler that MacOS has naturally) before downloading the DiffDomain, otherwise you may encounter error when installing hicstraw that DiffDomain relies on. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily:
+Note: You should have installed libgcc (C compiler that MacOS has naturally) before downloading diffDomain, otherwise you may encounter error when installing hicstraw that diffDomain relies on. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily:
+
 ```
 conda install libgcc
 ```
@@ -78,7 +79,6 @@ pip install diffDomain-py3
 ```
 
 ### to clone this repository
-
 
 
 ```
