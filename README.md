@@ -54,6 +54,7 @@ and
 - pandas 
 - numpy 
 - docopt 
+- tqdm
 - matplotlib 
 - statsmodels
 - h5py 
