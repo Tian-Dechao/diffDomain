@@ -64,13 +64,13 @@ and
 
 First of all, we recommend you to have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html), and create a new independent environment for diffDomain.
 
-Note: You should have installed libgcc (C compiler that MacOS has naturally) before downloading diffDomain, otherwise you may encounter error when installing hicstraw that diffDomain relies on. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily:
+Note: If you encounter error when installing hicstraw that diffDomain relies on. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily:
 
 ```
-conda install libgcc
+conda install -c bioconda hic-straw
 ```
 
-You can choose one of following methods. 
+Then you can choose one of following methods. 
 
 ### to install python3 version from pypi
 
