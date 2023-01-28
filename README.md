@@ -72,7 +72,8 @@ git clone https://github.com/Tian-Dechao/diffDomain
 cd diffDomain
 ```
   
-Step2:
+Step2:  
+  
 For Linux 
 
 ```
@@ -89,7 +90,7 @@ Step3:
 conda activate diffdomain
 ```
   
-In this environment, all the need of diffDomain(Python3 version) have installed.
+In this environment, all the need of diffDomain(Python3 version) have been installed.
 
 ### Method2: to install python3 version from Pypi
 
