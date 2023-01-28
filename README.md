@@ -65,7 +65,7 @@ and
 
 First of all, we recommend you to have a package manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html), and create a new independent environment for diffDomain.
 
-### Method1
+### Method1: to install the conda environment
 Step1:
 ```
 git clone https://github.com/Tian-Dechao/diffDomain
