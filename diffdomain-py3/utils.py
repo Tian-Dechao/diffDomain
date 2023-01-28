@@ -123,7 +123,7 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
         regions = "{0}:{1}:{2}".format(chrn, start, end)
         el = hf.get(regions)
         if el is None:
-            print(f' {regions} not found in {fhic}')
+            print(f'{regions} is not found in {fhic}')
             return
         el = np.array(el) # transform to numpy format
 
