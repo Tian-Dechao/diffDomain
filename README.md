@@ -63,7 +63,7 @@ and
 
 ## Installation
 
-First of all, we recommend you to have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html), and create a new independent environment for diffDomain.
+First of all, we recommend you to have a package manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html), and create a new independent environment for diffDomain.
 
 ### Method1
 Step1:
