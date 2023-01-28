@@ -65,7 +65,39 @@ and
 
 First of all, we recommend you to have a packages manager, such as [conda](https://docs.conda.io/en/latest/miniconda.html), and create a new independent environment for diffDomain.
 
-Note: If you encounter error when installing hicstraw that diffDomain relies on. You can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it easily:
+### Method1
+Step1:
+```
+git clone https://github.com/Tian-Dechao/diffDomain
+cd diffDomain
+```
+  
+Step2:
+For Linux 
+
+```
+conda env create --name diffdomain -f environment_linux.yml
+```
+  
+For MacOS 
+```
+conda env create --name diffdomain -f environment_macos.yml
+```  
+  
+Step3:
+```
+conda activate diffdomain
+```
+  
+In this environment, all the need of diffDomain(Python3 version) have installed.
+
+### Method2: to install python3 version from Pypi
+
+```
+pip install diffDomain-py3
+```
+
+Note: If you encounter errors when installing hicstraw that diffDomain relies on, you can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it:
 
 ```
 conda install -c bioconda hic-straw
@@ -73,21 +105,7 @@ conda install -c bioconda hic-straw
 
 Then you can choose one of following methods. 
 
-### to install python3 version from pypi
-
-```
-pip install diffDomain-py3
-```
-
-### to clone this repository
-
-
-```
-git clone https://github.com/Tian-Dechao/diffDomain.git
-cd diffDomain
-pip install requirements.txt
-
-```  
+ 
 
 ## Documentation
 Please see the [wiki](https://github.com/Tian-Dechao/diffDomain/wiki/0.Usage) for extensive documentation and example tutorials.
