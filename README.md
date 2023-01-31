@@ -104,8 +104,16 @@ Note: If you encounter errors when installing hicstraw that diffDomain relies on
 conda install -c bioconda hic-straw
 ```
 
-Then you can choose one of following methods. 
-
+### Method3: Docker image named guming5/diffdomain-centos7:v1
+```
+docker pull guming5/diffdomain-centos7:v1
+docker run -it guming5/diffdomain-centos7:v1 /bin/bash
+# shift to the normal user named work
+su work
+cd ~
+source activate diffdomain
+```
+In this image, there is a contact conda environment named diffdomain (/home/work/.conda/envs/diffdomain) meeting all requests, in which you can use the diffDomain script directly.
  
 
 ## Documentation
