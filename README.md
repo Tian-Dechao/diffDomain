@@ -113,7 +113,7 @@ su work
 cd ~
 source activate diffdomain
 ```
-In this image, there is a contact conda environment named diffdomain (/home/work/.conda/envs/diffdomain) meeting all requests, in which you can use the diffDomain script directly.
+In this image, there is a contact conda environment named diffdomain (/home/work/.conda/envs/diffdomain) meeting all requests, in which you can use the diffDomain Python3 version directly.
  
 
 ## Documentation
