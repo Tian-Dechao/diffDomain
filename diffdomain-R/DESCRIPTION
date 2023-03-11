@@ -1,0 +1,25 @@
+Package: diffdomain
+Type: Package
+Title: diffDomain is a new computational method for identifying
+        reorganized TADs using chromatin contact maps from two
+        biological conditions.
+Version: 0.1.0
+Author: Xiao Zhang
+Maintainer: The package maintainer <zhangx767@mail2.sysu.edu.cn>
+Description: Use diffdomain to identify reorganized TADs
+  -- ofile filepath for output file  [default: stdout]
+  -- sep deliminator for hicfile  [default: \t]
+  -- hicnorm hic matrix normalization method  [default: KR]
+  -- chrn chromosome number  [default: ALL]
+  -- reso resolution for hicfile  [default: 100000]
+  -- min_nbin effective number of bin  [default: 10]
+  -- f parameters for filtering the null values of the matrix[0~1)  [default: 0.5]
+  -- reso resolution for hicfile  [default: 100000]
+  -- ncore number of parallel process  [default: 10]
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: false
+RoxygenNote: 7.1.2
+Imports: RMTstat (>= 0.3.1), strawr, stringr
+NeedsCompilation: no
+Packaged: 2023-03-10 02:29:34 UTC; zhangx
