@@ -12,6 +12,7 @@ import sys
 import pandas as pd
 from docopt import docopt
 from multiprocessing import Pool
+import random
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -283,20 +284,39 @@ def comp2domins_by_twtest(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbi
         mat1 = contact_matrix_from_hic(chrn, start, end, reso, fhic1, hicnorm)
 
         if not mat0 is None and not mat1 is None:
-            # rlmove rows that have more than half np.nan
+            # remove rows that have more than half np.nan
             nbins = compute_nbins(start, end, reso)
             ind0 = np.sum(np.isnan(mat0), axis=0) < nbins * (1-float(f))
             ind1 = np.sum(np.isnan(mat1), axis=0) < nbins * (1-float(f))
             ind = ind0 & ind1
+            
+            # change made to suit SVs - replace the nan with 1 in mat1 and mat0 not changed.
+            #ind0 = np.sum(np.isnan(mat1), axis=0) == 0
+            #ind1 = np.sum(np.isnan(mat1), axis=1) == 0
+            #indc = np.where(ind0 == False)
+            #indr = np.where(ind1 == False)
+            
+            # change mat1 to suit SVs  
+            #mat1_changed = mat1[indr,indc] = 1
+            #X = [random.expovariate(5) for i in range(nbins)]
+            #for i in range(len(indr[0])):
+            #    x = random.choice(X)
+            #    mat1[indr[0][i],indc[0][i]] = 1+x
+            #mat1_changed = mat1
+           
             if ind.sum() >= min_nbin:
+            #if ind.sum() > 0:
                 indarray = np.array(ind)
                 mat0rmna = mat0[indarray, :]
                 mat0rmna = mat0rmna[:, indarray]
                 mat1rmna = mat1[indarray, :]
                 mat1rmna = mat1rmna[:, indarray]
-
+        
                 # compute the differnece matrix
                 Diffmat = mat0rmna / mat1rmna
+                #Diffmat = mat0 / mat1
+                #Diffmat = mat0 / mat1_changed
+
                 #print Diffmat
                 ind1 = np.sum(np.isnan(Diffmat), axis=0)
                 #print ind1
@@ -320,4 +340,215 @@ def comp2domins_by_twtest(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbi
         return result
 
 
+
+
+def comp2domins_by_twtest_changed(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbin, f):
+        mat0 = contact_matrix_from_hic(chrn, start, end, reso, fhic0, hicnorm)
+        mat1 = contact_matrix_from_hic(chrn, start, end, reso, fhic1, hicnorm)
+        #print(mat0)
+        #print(mat1)
+        #print(sum(np.isnan(mat1)))
+        #print(np.isnan(mat1).sum())
+        #print(len(mat1)*len(mat1))
+
+        if not mat0 is None and not mat1 is None:
+            # rlmove rows that have more than half np.nan
+            nbins = compute_nbins(start, end, reso)
+            ind0 = np.sum(np.isnan(mat0), axis=0) < nbins * (1-float(f))
+            ind1 = np.sum(np.isnan(mat1), axis=0) < nbins * (1-float(f))
+            ind = ind0 & ind1
+            
+            row,col = [],[]
+            for i in range(nbins):
+                for j in range(nbins):
+                    if np.isnan(mat1[i][j]):
+                        row.append(i)
+                        col.append(j)
+
+            #X = [random.expovariate(5) for i in range(nbins)]
+
+            for i in range(len(row)):
+                #x = random.choice(X)
+                mat1[row[i],col[i]] = 1
+
+            if ind.sum() >= min_nbin:
+                #indarray = np.array(ind)
+                #mat0rmna = mat0[indarray, :]
+                #mat0rmna = mat0rmna[:, indarray]
+                #mat1rmna = mat1[indarray, :]
+                #mat1rmna = mat1rmna[:, indarray]
+
+                # compute the differnece matrix
+                #Diffmat = mat0rmna / mat1rmna
+                Diffmat = mat0 / mat1
+                
+                #print Diffmat
+                ind1 = np.sum(np.isnan(Diffmat), axis=0)
+                #print ind1
+
+                Diffmatnorm = normDiffbyMeanSD(D=Diffmat)
+                #print Diffmatnorm
+
+                result = twtest_formula(Diffmatnorm)
+
+                domname = '%s:%s-%s' % (chrn, start, end)
+                result = [chrn, start, end, domname, result[1], result[2], result[0]]
+            else:
+                domname = '%s:%s-%s' % (chrn, start, end)
+                print('The length of this TAD is too small at this resolution to be calculated !')
+                result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
+        else:
+            domname = '%s:%s-%s' % (chrn, start, end)
+            result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
+            print('The matrix is too spase at this resolution to be calculated !')
+
+        return result
+
+## ADD Functions to get svs data and make adjustment to diffdomain
+
+def SVs_from_bedfile(fsvs):
+    SV_data = pd.read_table(fsvs,header = None)
+    SV_data = SV_data.rename(columns={0:'chrom',1:'breakpoint1',2:'breakpoint2',3:'type'})
+    SV_data['chrom'] = [str(x) for x in SV_data['chrom']]
+    return SV_data
+
+def find_large_missing_blocks(matrix, threshold):
+    # threshold is a ratio,if nan is larger than threshold of the whole matrix, then find the missing_blocks.
+    rows, cols = len(matrix), len(matrix[0])
+    missing_blocks = []
+    visited = set()  # To keep track of visited positions
+    
+    total_elements = rows * cols
+    threshold_nan_count = int(threshold * total_elements)
+    
+    def is_visited(i, j, block_rows, block_cols):
+        return any((i + k, j + l) in visited for k in range(block_rows) for l in range(block_cols))
+    
+    for i in range(rows):
+        for j in range(cols):
+            if (i, j) in visited:  # Skip if position has been visited
+                continue
+            
+            # Check for missing value at position (i, j)
+            if np.isnan(matrix[i][j]):
+                block_rows = 0
+                block_cols = 0
+                
+                # Check how large the missing block is in rows
+                while i + block_rows < rows and all(np.isnan(matrix[i + k][j]) for k in range(block_rows + 1)):
+                    block_rows += 1
+                
+                # Check how large the missing block is in columns
+                while j + block_cols < cols and all(np.isnan(matrix[i][j + l]) for l in range(block_cols + 1)):
+                    block_cols += 1
+                    
+                block_nan_count = block_rows * block_cols
+                
+                if block_nan_count >= threshold_nan_count:
+                    if is_visited(i, j, block_rows, block_cols):
+                        continue
+                    
+                    missing_blocks.append(((i, j), block_rows, block_cols))
+                    
+                    # Mark positions as visited
+                    for k in range(block_rows):
+                        for l in range(block_cols):
+                            visited.add((i + k, j + l))
+    
+    # Sort the missing blocks by area (number of NaN values) in descending order
+    missing_blocks.sort(key=lambda block: block[1] * block[2], reverse=True)
+    
+    return missing_blocks
+
+def make_symmetric(matrix):
+    rows, cols = matrix.shape
+    for i in range(rows):
+        for j in range(i+1, cols):
+            matrix[j, i] = matrix[i, j]
+    
+    return matrix
+
+def fill_missing_blocks(matrix, missing_blocks, fill_value = 1):
+    filled_matrix = np.copy(matrix)
+    
+    for block_info in missing_blocks:
+        (i, j), block_rows, block_cols = block_info
+        
+        for k in range(block_rows):
+            for l in range(block_cols):
+                filled_matrix[i + k][j + l] = fill_value
+        filled_matrix = make_symmetric(filled_matrix)
+    
+    return filled_matrix
+
+def missing_block_with_SVs(blockstart,blockend,SVsdataset,chrn):
+    df = SVsdataset[SVsdataset['type'] == '+-']
+    df = df[df['chrom'] == chrn]
+    related_num = 0
+    for i in range(df.shape[0]):
+        df = df[((df['breakpoint1'] >= blockstart) & (df['breakpoint1'] <= blockend))
+                |((df['breakpoint2'] >= blockstart) & (df['breakpoint2'] <= blockend))
+                |((df['breakpoint1'] <= blockstart) & (df['breakpoint2'] >= blockend))
+                ]
+    if df.shape[0] >0:
+        return True,
+                
+    return False
+
+
+def is_large_missing_block(missing_blocks, total_elements, threshold = 0.8):
+    total_missing_elements = sum(block_rows * block_cols for (_, _), block_rows, block_cols in missing_blocks)
+    if (total_missing_elements / total_elements) > threshold:
+        return True
+    else:
+        return False
+
+
+def comp2domins_by_twtest_withSVs(chrn, start, end, reso, hicnorm, fhic0, fhic1,min_nbin,f,min_ratio = 0.2,SVs_file_condition2 = 'nosvsfile',fsvs_condition2 = None):
+    # SVs_file_condition2 and fsvs_condition2 are all under condition2 
+    mat0 = contact_matrix_from_hic(chrn, start, end, reso, fhic0, hicnorm)
+    mat1 = contact_matrix_from_hic(chrn, start, end, reso, fhic1, hicnorm)
+    domname = '%s:%s-%s' % (chrn, start, end)
+    filled_matrix = mat1
+
+    if not mat0 is None and not mat1 is None:
+        if SVs_file_condition2 == 'svsfile':
+            SVs = SVs_from_bedfile(fsvs_condition2)
+            # if the large loss in the mat1 resulted from deletion type Svs in conditon2(fhic1)
+            if missing_block_with_SVs(start,end,SVs,chrn):
+                # imputation1 SV related
+                missing_blocks = find_large_missing_blocks(matrix = mat1, threshold =min_ratio)
+                if missing_blocks:
+                    filled_matrix = fill_missing_blocks(matrix = mat1, missing_blocks = missing_blocks)
+        else:
+            missing_blocks = find_large_missing_blocks(matrix = mat1, threshold = min_ratio)
+            if missing_blocks:
+                filled_matrix = fill_missing_blocks(matrix = mat1, missing_blocks = missing_blocks)
+                
+        #mat1_changed = filled_matrix 
+        nbins = compute_nbins(start, end, reso)
+        if is_large_missing_block(missing_blocks = missing_blocks,total_elements=nbins*nbins):
+            result = [chrn, start, end, domname, np.nan, 2.22e-16, np.nan]
+        else:
+            # if rows that have more than half np.nan
+            ind0 = np.sum(np.isnan(mat0), axis=0) < nbins * (1-float(f))
+            ind1 = np.sum(np.isnan(filled_matrix), axis=0) < nbins * (1-float(f))
+            ind = ind0 & ind1       
+            if ind.sum() >= min_nbin:
+                Diffmat = mat0 / filled_matrix
+                #print(Diffmat)
+                # imputation2
+                Diffmatnorm = normDiffbyMeanSD(D=Diffmat)
+
+                result = twtest_formula(Diffmatnorm)
+
+                result = [chrn, start, end, domname, result[1], result[2], result[0]]
+            else:
+                print('The length of this TAD is too small at this resolution to be calculated !')
+                result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
+    else:
+        result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
+        print('The matrix is too spase at this resolution to be calculated !')
+
+    return result
 
