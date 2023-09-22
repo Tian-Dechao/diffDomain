@@ -95,7 +95,7 @@ In this environment, all the need of diffDomain(Python3 version) have been insta
 ### Method2: to install python3 version from Pypi
 
 ```
-pip install diffDomain-py3
+pip install diffDomain-py3 --prefix /the/path/to/save/
 ```
 
 Note: If you encounter errors when installing hicstraw that diffDomain relies on, you can use [conda](https://docs.conda.io/en/latest/miniconda.html) to install it:
