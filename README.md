@@ -50,6 +50,8 @@ diffDomain-py3 is dependent on
 - hic-straw==1.3.1
 
 and
+- cooler
+- hicexplorer
 - TracyWidom 
 - pandas 
 - numpy 
