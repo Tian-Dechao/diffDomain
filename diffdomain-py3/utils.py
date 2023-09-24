@@ -66,7 +66,7 @@ def makewindow(x, reso):
     return wins
 
 def makewindow2(start, end, reso):
-    if start > end :
+    if start >= end :
         print('The end of TAD should be bigger than its start')
         return None
     k1 = int(np.floor(start / reso))
@@ -83,6 +83,20 @@ def compute_nbins(start, end, reso):
     return nb
 
 
+def load_cool(fhic,reso):
+    import subprocess as sp
+    # translate the cool file into h5
+    name = fhic.replace('.cool','')
+    name_h5=fhic.replace('.cool','.h5')
+    cmd1 = f'hicConvertFormat -m {fhic} --inputFormat cool \
+        --outputFormat ginteractions -o {name} --reso {reso}'
+    cp1 = sp.run(cmd1,shell=True,capture_output=True,encoding='utf-8')
+
+    if cp1.returncode == 0:
+        # sp.run(f'rm {name_h5}',shell=True,capture_output=False,encoding='utf-8')
+        return name+'.tsv'
+    else:
+        raise(Exception(cp1.stderr))
 
 
 def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
@@ -97,9 +111,33 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
     mat[:] = np.nan
     # find the edgelist from .hic
     region = "{0}:{1}:{2}".format(chrn, domwin[0], domwin[-1])
-    if fhic[-4:] == '.hic':
+
+    def load_h5(fhic,chrn, start, end):
+            import h5py
+            hf = h5py.File(fhic,'r')
+            regions = "{0}:{1}:{2}".format(chrn, start, end)
+            el = hf.get(regions)
+            if el is None:
+                print(f'{regions} is not found in {fhic}')
+                return None
+            el = np.array(el) # transform to numpy format
+
+            for i in range(el.shape[0]):
+                bin0 = el[0][i]
+                bin1 = el[1][i]
+                k=domwin_dict[bin0]
+                l=domwin_dict[bin1]
+                if k == l:
+                    mat[k, l] = el[2][i]
+                else:
+                    mat[k, l] = el[2][i]
+                    mat[l, k] = el[2][i]
+
+            return mat
+    if fhic.endswith('.hic'):
         try:
             el = straw.straw('observed',hicnorm, fhic, region, region, 'BP', reso)
+            
             for i in range(len(el)):
                 bin0 = el[i].binX
                 bin1 = el[i].binY
@@ -118,31 +156,61 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
             return mat
 
     ## This module is just written to test the .h5 sample data (chr1_50M_GM12878.h5, chr1_50M_K562.h5)
-    elif fhic[-3:] == '.h5':
-        import h5py
-        hf = h5py.File(fhic,'r')
-        regions = "{0}:{1}:{2}".format(chrn, start, end)
-        el = hf.get(regions)
-        if el is None:
-            print(f'{regions} is not found in {fhic}')
-            return
-        el = np.array(el) # transform to numpy format
+    # elif fhic[-3:] == '.h5' or fhic.split('.')[-1] == 'hdf5':
+        
+    #     return load_h5(fhic,chrn, start, end)
+    
+    elif fhic.endswith('.cool'):
+        tsv_file = load_cool(fhic,reso)
+        df = pd.read_table(tsv_file,header=None)
+        df.columns = ['chr1','start1','end1','chr2','start2','end2','counts']
+        if start == 1: start = 0
+        for i in ['start1','end1','start2','end2']:
+            df[i] = df[i].astype(int)
+        if df.end1[0]-df.start1[0] != reso :
+            print('The resolution is not same with the cool file!')
+            return None
+        else:
+            df = df.loc[(df.chr1==chrn)&(df.chr2==chrn)]
+            if df.shape[0] ==0:
+                if chrn.startswith('chr'):
+                    chrn2 = chrn[3:]
+                else:
+                    chrn2 = 'chr' + chrn
+                
+                df = df.loc[(df.chr1==chrn2)&(df.chr2==chrn2)]
+        
+                if df.shape[0] == 0:
+                    print(f'Chrome "{chrn}" and "{chrn2}" are not found in {fhic}')
+                    return None
+            
+            df = df.loc[(df.start1>=start) & (df.start2>=start)]
+            # print(df.shape[0])
+            df = df.loc[(df.end1<=end) & (df.end2<=end)]
+            # print(df.shape[0])
+            
+            if df.shape[0] ==0:
+                print(f'{regions} is not found in {fhic}')
+                return None
+            df['binX'] = (df.start1.astype(int)-start)//reso
+            df['binY'] = (df.start2.astype(int)-start)//reso
 
-        for i in range(el.shape[0]):
-            bin0 = el[0][i]
-            bin1 = el[1][i]
-            k=domwin_dict[bin0]
-            l=domwin_dict[bin1]
-            if k == l:
-                mat[k, l] = el[2][i]
-            else:
-                mat[k, l] = el[2][i]
-                mat[l, k] = el[2][i]
-
-        return mat
-
+            df3col = df[['binX','binY','counts']].reset_index(drop=True)
+            # print(df3col.shape[0])
+            for i in range(len(df3col)):
+                k = df3col.binX[i]
+                l = df3col.binY[i]
+                if k == l:
+                    mat[k, l] = df3col.counts[i]
+                else:
+                    mat[k, l] = df3col.counts[i]
+                    mat[l, k] = df3col.counts[i]
+            # print(mat)
+            return mat
+    
     # load a sparse matrix with three columns
     else:
+        print('Trying to sparse the files as three columns by "\t" ')
         data = pd.read_table(fhic,sep='\t')
         el =[[],[],[]]
         el[0] = data[data.columns[0]].tolist()
@@ -159,6 +227,7 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
             else:
                 mat[k, l] = el[2][i]
                 mat[l, k] = el[2][i]
+       
 
         return mat
 
@@ -330,12 +399,12 @@ def comp2domins_by_twtest(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbi
                 result = [chrn, start, end, domname, result[1], result[2], result[0]]
             else:
                 domname = '%s:%s-%s' % (chrn, start, end)
-                print('The length of this TAD is too small at this resolution to be calculated !')
+                print('The matrix is too spase or too small at this resolution to be calculated !')
                 result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
         else:
             domname = '%s:%s-%s' % (chrn, start, end)
             result = [chrn, start, end, domname, np.nan, np.nan, np.nan]
-            print('The matrix is too spase at this resolution to be calculated !')
+            print('The matrixes failed to be load!')
 
         return result
 
