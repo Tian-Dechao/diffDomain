@@ -35,7 +35,7 @@ dependencies:
   - xz=5.2.6=h166bdaf_0
   - pip:
     - cycler==0.11.0
-    - diffdomain-py3==0.1.7
+    - diffdomain-py3==0.2.0
     - docopt==0.6.2
     - fonttools==4.38.0
     - h5py==3.8.0
