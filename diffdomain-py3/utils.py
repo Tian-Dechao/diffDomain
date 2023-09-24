@@ -207,7 +207,13 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
                     mat[l, k] = df3col.counts[i]
             # print(mat)
             return mat
-    
+        
+    elif fhic.endswith('.mcool'):
+        import cooler
+        c = cooler.Cooler(f'{fhic}::resolutions/{reso}')
+        mat = c.matrix(balance=True).fetch(f'{chrn}:{start}-{end}')
+        return mat
+        
     # load a sparse matrix with three columns
     else:
         print('Trying to sparse the files as three columns by "\t" ')
