@@ -69,10 +69,13 @@ def makewindow2(start, end, reso):
     if start >= end :
         print('The end of TAD should be bigger than its start')
         return None
-    k1 = int(np.floor(start / reso))
-    k2 = int(np.ceil(end / reso))
+    # k1 = int(np.floor(start / reso))
+    # k2 = int(np.ceil(end / reso))
+    k1 = start // reso
 
-    wins = [ _*reso for _ in range(k1, k2)]
+    k2 = end // reso 
+
+    wins = [ _*reso for _ in range(k1, k2+1)]
     return wins
 
 
@@ -83,20 +86,20 @@ def compute_nbins(start, end, reso):
     return nb
 
 
-def load_cool(fhic,reso):
-    import subprocess as sp
-    # translate the cool file into h5
-    name = fhic.replace('.cool','')
-    name_h5=fhic.replace('.cool','.h5')
-    cmd1 = f'hicConvertFormat -m {fhic} --inputFormat cool \
-        --outputFormat ginteractions -o {name} --reso {reso}'
-    cp1 = sp.run(cmd1,shell=True,capture_output=True,encoding='utf-8')
+# def load_cool(fhic,reso):
+#     import subprocess as sp
+#     # translate the cool file into h5
+#     name = fhic.replace('.cool','').replace('.mcool','')
 
-    if cp1.returncode == 0:
-        # sp.run(f'rm {name_h5}',shell=True,capture_output=False,encoding='utf-8')
-        return name+'.tsv'
-    else:
-        raise(Exception(cp1.stderr))
+#     cmd1 = f'hicConvertFormat -m {fhic} --inputFormat cool \
+#         --outputFormat ginteractions -o {name} --reso {reso}'
+#     cp1 = sp.run(cmd1,shell=True,capture_output=True,encoding='utf-8')
+
+#     if cp1.returncode == 0:
+#         # sp.run(f'rm {name_h5}',shell=True,capture_output=False,encoding='utf-8')
+#         return name+'.tsv'
+#     else:
+#         raise(Exception(cp1.stderr))
 
 
 def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
@@ -111,14 +114,15 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
     mat[:] = np.nan
     # find the edgelist from .hic
     region = "{0}:{1}:{2}".format(chrn, domwin[0], domwin[-1])
+    region2 = "{0}:{1}-{2}".format(chrn, domwin[0], domwin[-1])
+    print(region)
 
-    def load_h5(fhic,chrn, start, end):
+    def load_h5(fhic,chrn, region):
             import h5py
             hf = h5py.File(fhic,'r')
-            regions = "{0}:{1}:{2}".format(chrn, start, end)
-            el = hf.get(regions)
+            el = hf.get(region)
             if el is None:
-                print(f'{regions} is not found in {fhic}')
+                print(f'{region} is not found in {fhic}')
                 return None
             el = np.array(el) # transform to numpy format
 
@@ -158,60 +162,39 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
     ## This module is just written to test the .h5 sample data (chr1_50M_GM12878.h5, chr1_50M_K562.h5)
     # elif fhic[-3:] == '.h5' or fhic.split('.')[-1] == 'hdf5':
         
-    #     return load_h5(fhic,chrn, start, end)
+    #     return load_h5(fhic,region)
     
-    elif fhic.endswith('.cool'):
-        tsv_file = load_cool(fhic,reso)
-        df = pd.read_table(tsv_file,header=None)
-        df.columns = ['chr1','start1','end1','chr2','start2','end2','counts']
-        if start == 1: start = 0
-        for i in ['start1','end1','start2','end2']:
-            df[i] = df[i].astype(int)
-        if df.end1[0]-df.start1[0] != reso :
-            print('The resolution is not same with the cool file!')
-            return None
-        else:
-            df = df.loc[(df.chr1==chrn)&(df.chr2==chrn)]
-            if df.shape[0] ==0:
-                if chrn.startswith('chr'):
-                    chrn2 = chrn[3:]
-                else:
-                    chrn2 = 'chr' + chrn
-                
-                df = df.loc[(df.chr1==chrn2)&(df.chr2==chrn2)]
-        
-                if df.shape[0] == 0:
-                    print(f'Chrome "{chrn}" and "{chrn2}" are not found in {fhic}')
-                    return None
-            
-            df = df.loc[(df.start1>=start) & (df.start2>=start)]
-            # print(df.shape[0])
-            df = df.loc[(df.end1<=end) & (df.end2<=end)]
-            # print(df.shape[0])
-            
-            if df.shape[0] ==0:
-                print(f'{regions} is not found in {fhic}')
-                return None
-            df['binX'] = (df.start1.astype(int)-start)//reso
-            df['binY'] = (df.start2.astype(int)-start)//reso
-
-            df3col = df[['binX','binY','counts']].reset_index(drop=True)
-            # print(df3col.shape[0])
-            for i in range(len(df3col)):
-                k = df3col.binX[i]
-                l = df3col.binY[i]
-                if k == l:
-                    mat[k, l] = df3col.counts[i]
-                else:
-                    mat[k, l] = df3col.counts[i]
-                    mat[l, k] = df3col.counts[i]
-            # print(mat)
-            return mat
-        
-    elif fhic.endswith('.mcool'):
+    
+    elif fhic.endswith('cool') : # .cool or .mcool
         import cooler
-        c = cooler.Cooler(f'{fhic}::resolutions/{reso}')
-        mat = c.matrix(balance=True).fetch(f'{chrn}:{start}-{end}')
+        import subprocess as sp
+        # Normalization
+
+        suffix = f'_{int(reso/1000)}k_{hicnorm}.cool'
+        if fhic.endswith('.cool'):
+            hicfile = fhic
+            hic_norm = fhic.replace('.cool',suffix)
+        elif fhic.endswith('.mcool'):
+            hicfile = f'{fhic}::resolutions/{reso}'
+            hic_norm = fhic.replace('.mcool',suffix)
+                
+        try:
+            c = cooler.Cooler(f'{hic_norm}')
+
+        except FileNotFoundError:
+            # normalization
+            # KR or ICE
+            cmd = f'hicConvertFormat -m {hicfile} --inputFormat cool \
+                --outputFormat cool --correction_name {hicnorm} \
+                --reso {reso} -o {hic_norm}'
+            cp1 = sp.run(cmd,shell=True,capture_output=True,encoding='utf-8')
+            
+            if cp1.returncode == 0: # True
+                c = cooler.Cooler(f'{hic_norm}')
+            else: # False
+                raise(Exception(cp1.stderr))
+
+        mat = c.matrix(balance=False).fetch(region2)
         return mat
         
     # load a sparse matrix with three columns
