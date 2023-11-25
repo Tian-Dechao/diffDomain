@@ -124,3 +124,7 @@ Please see the [wiki](https://github.com/Tian-Dechao/diffDomain/wiki/0.Usage) fo
 # Contact information
 
 More information please contact Dunming Hua at huadm@mail2.sysu.edu.cn, Ming Gu at guming5@mail2.sysu.edu.cn or Dechao Tian at tiandch@mail.sysu.edu.cn.
+
+
+# References
+[![DOI](https://zenodo.org/badge/424090652.svg)](https://zenodo.org/doi/10.5281/zenodo.10205207)
