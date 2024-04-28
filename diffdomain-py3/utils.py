@@ -201,6 +201,8 @@ def contact_matrix_from_hic(chrn, start, end, reso, fhic, hicnorm):
     else:
         print('Trying to sparse the files as three columns by "\t" ')
         data = pd.read_table(fhic,sep='\t')
+        # filter interactiosn by only keeping those within the given TAD region
+        data = data.loc[data[0] >= int(start) & data[1] <= int(end)]
         el =[[],[],[]]
         el[0] = data[data.columns[0]].tolist()
         el[1] = data[data.columns[1]].tolist()
