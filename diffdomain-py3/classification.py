@@ -259,11 +259,28 @@ else:
                            inplace=True)
 
     if args.out != None:
-        os.chdir(args.out)    
-    filename = os.path.split(args.diff)[1]
-    result.fillna('nan',inplace=True)
-    result.to_csv('{}_types.txt'.format(filename),sep='\t',index=False)
-    print(filename)
+
+        if os.path.isdir(args.out): # directory path
+
+            os.chdir(args.out)   
+            filename = os.path.split(args.diff)[1]
+            result.fillna('nan',inplace=True)
+            result.to_csv('{}_types.txt'.format(filename),sep='\t',index=False)
+            print('{}_types.txt'.format(filename))
+
+        else: # file path
+
+            result.fillna('nan',inplace=True)
+            result.to_csv('{}'.format(args.out),sep='\t',index=False)
+            print('{}'.format(args.out))
+
+    else: # default
+
+        filename = os.path.split(args.diff)[1]
+        result.fillna('nan',inplace=True)
+        result.to_csv('{}_types.txt'.format(filename),sep='\t',index=False)
+        print('{}_types.txt'.format(filename))
+    
 
     # whether all of the significantly defferential tads have been selected
     len_sig = result.loc[result['significant']==1,:].shape[0]
