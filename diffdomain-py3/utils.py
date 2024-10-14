@@ -261,7 +261,13 @@ def normDiffbyMeanSD(D):
     for k, val in contactByDistanceDiff.items():
         indnan = np.isnan(val)
         indinf = np.isinf(val)
-        if np.any(indnan) and np.any(indinf):
+        
+        if np.all(indnan+indinf):
+            a[k] = 0
+            b[k] = 0
+            m[k] = 0
+            sd[k] = 1
+        elif np.any(indnan) and np.any(indinf):
             val = np.array(val)
             ind = np.logical_or(indnan, indinf)
             val1 = val[np.logical_not(ind)]
@@ -350,8 +356,8 @@ def comp2domins_by_twtest(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbi
         if not mat0 is None and not mat1 is None:
             # remove rows that have more than half np.nan
             nbins = compute_nbins(start, end, reso)
-            ind0 = np.sum(np.isnan(mat0), axis=0) < nbins * (1-float(f))
-            ind1 = np.sum(np.isnan(mat1), axis=0) < nbins * (1-float(f))
+            ind0 = np.sum(np.isnan(mat0)| (mat0 == 0), axis=0) < nbins * (1-float(f))
+            ind1 = np.sum(np.isnan(mat1)| (mat1 == 0), axis=0) < nbins * (1-float(f))
             ind = ind0 & ind1
             
             # change made to suit SVs - replace the nan with 1 in mat1 and mat0 not changed.
@@ -409,6 +415,7 @@ def comp2domins_by_twtest(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbi
 def comp2domins_by_twtest_changed(chrn, start, end, reso, hicnorm, fhic0, fhic1, min_nbin, f):
         mat0 = contact_matrix_from_hic(chrn, start, end, reso, fhic0, hicnorm)
         mat1 = contact_matrix_from_hic(chrn, start, end, reso, fhic1, hicnorm)
+
         #print(mat0)
         #print(mat1)
         #print(sum(np.isnan(mat1)))
@@ -418,8 +425,8 @@ def comp2domins_by_twtest_changed(chrn, start, end, reso, hicnorm, fhic0, fhic1,
         if not mat0 is None and not mat1 is None:
             # rlmove rows that have more than half np.nan
             nbins = compute_nbins(start, end, reso)
-            ind0 = np.sum(np.isnan(mat0), axis=0) < nbins * (1-float(f))
-            ind1 = np.sum(np.isnan(mat1), axis=0) < nbins * (1-float(f))
+            ind0 = np.sum(np.isnan(mat0)| (mat0 == 0), axis=0) < nbins * (1-float(f))
+            ind1 = np.sum(np.isnan(mat1)| (mat1 == 0), axis=0) < nbins * (1-float(f))
             ind = ind0 & ind1
             
             row,col = [],[]
@@ -572,6 +579,7 @@ def comp2domins_by_twtest_withSVs(chrn, start, end, reso, hicnorm, fhic0, fhic1,
     # SVs_file_condition2 and fsvs_condition2 are all under condition2 
     mat0 = contact_matrix_from_hic(chrn, start, end, reso, fhic0, hicnorm)
     mat1 = contact_matrix_from_hic(chrn, start, end, reso, fhic1, hicnorm)
+
     domname = '%s:%s-%s' % (chrn, start, end)
     filled_matrix = mat1
 
@@ -595,8 +603,8 @@ def comp2domins_by_twtest_withSVs(chrn, start, end, reso, hicnorm, fhic0, fhic1,
             result = [chrn, start, end, domname, np.nan, 2.22e-16, np.nan]
         else:
             # if rows that have more than half np.nan
-            ind0 = np.sum(np.isnan(mat0), axis=0) < nbins * (1-float(f))
-            ind1 = np.sum(np.isnan(filled_matrix), axis=0) < nbins * (1-float(f))
+            ind0 = np.sum(np.isnan(mat0)| (mat0 == 0), axis=0) < nbins * (1-float(f))
+            ind1 = np.sum(np.isnan(filled_matrix)| (filled_matrix == 0), axis=0) < nbins * (1-float(f))
             ind = ind0 & ind1       
             if ind.sum() >= min_nbin:
                 Diffmat = mat0 / filled_matrix

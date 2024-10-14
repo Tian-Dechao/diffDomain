@@ -27,6 +27,10 @@ t1.rename(columns={cols[0]:'chr',cols[1]:'start',cols[2]:'end'},inplace=True,err
 t2 = pd.read_table(args.tad2,sep=args.sep)
 cols = t2.columns
 t2.rename(columns={cols[0]:'chr',cols[1]:'start',cols[2]:'end'},inplace=True,errors='raise')
+
+if t1['chr'].str.contains('chr').all() and t2['chr'].str.contains('chr').all() and not data_types['chr'].str.contains('chr').any():
+    data_types['chr'] = 'chr' + data_types['chr'].astype(str)
+
 hicpath1 = args.hic1
 hicpath2 = args.hic2
 
@@ -77,7 +81,7 @@ def getSumTADs(h1, h2, t1, t2, reso=args.reso):
     def get_sum(row, h):
 
         region = f"{row['chr']}:{row['start']}:{row['end']}"
-        region2 = "chr{0}:{1}-{2}".format(row['chr'], row['start'], row['end'])
+        region2 = "{0}:{1}-{2}".format(row['chr'], row['start'], row['end'])
         
         if h.endswith('.hic'):
             try:
@@ -109,10 +113,11 @@ def getSumTADs(h1, h2, t1, t2, reso=args.reso):
             return np.sum(td)
 
     s1 = t1.apply(lambda row: get_sum(row, h1), axis=1).sum()
-    s2 = t2.apply(lambda row: get_sum(row, h2), axis=1).sum()
+    print('The sum of the KR-normalized Hi-C contact frequencies for all condition 1 TADs has been calculated.')
 
-    print('the sum of the KR-normalized Hi-C contact frequencies across all condition 1 TADs')
-    print('the sum of the KR-normalized Hi-C contact frequencies across all condition 2 TADs')
+    s2 = t2.apply(lambda row: get_sum(row, h2), axis=1).sum()
+    print('The sum of the KR-normalized Hi-C contact frequencies for all condition 2 TADs has been calculated.')
+
     return s1 / s2 if s2 != 0 else 0  
 
 def subdivide_types(data_types, h1, h2, scaling_factor, reso=args.reso):
@@ -154,8 +159,8 @@ def subdivide_types(data_types, h1, h2, scaling_factor, reso=args.reso):
             loc1 = f"{types['chr'][i]}:{types['start'][i]}:{types['end'][i]}"
             loc2 = f"{types['chr'][i+1]}:{types['start'][i+1]}:{types['end'][i+1]}"
 
-            region1 = "chr{0}:{1}-{2}".format(types['chr'][i], types['start'][i], types['end'][i])
-            region2 = "chr{0}:{1}-{2}".format(types['chr'][i+1], types['start'][i+1], types['end'][i+1])
+            region1 = "{0}:{1}-{2}".format(types['chr'][i], types['start'][i], types['end'][i])
+            region2 = "{0}:{1}-{2}".format(types['chr'][i+1], types['start'][i+1], types['end'][i+1])
             
             # Compute Hi-C values using straw
             con1_hic_value = getc(h1,loc1,region1,reso)
