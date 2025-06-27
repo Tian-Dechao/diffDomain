@@ -87,7 +87,7 @@ def getSumTADs(h1, h2, t1, t2, reso=args.reso):
             try:
                 values = straw.straw('observed', 'KR', h, region, region, 'BP', reso)
                 # print(region,np.sum([i.counts for i in values]))
-                return np.sum([i.counts for i in values])
+                return np.nansum([i.counts for i in values])
             except Exception as e:
                 print(f'Error processing {region}: {e}')
                 return 0  
@@ -99,7 +99,7 @@ def getSumTADs(h1, h2, t1, t2, reso=args.reso):
             try:
                 c = cooler.Cooler(f'{h}')
                 mat = c.matrix(balance=False).fetch(region2)
-                return np.sum(mat)
+                return np.nansum(mat)
             except Exception as e:
                 print('Error:', e)
     
@@ -110,7 +110,7 @@ def getSumTADs(h1, h2, t1, t2, reso=args.reso):
             end =int(row['end'])
             td = df.loc[(df[df.columns[0]] >= start) & (df[df.columns[1]] <= end), df.columns[2]]
 
-            return np.sum(td)
+            return np.nansum(td)
 
     s1 = t1.apply(lambda row: get_sum(row, h1), axis=1).sum()
     print('The sum of the KR-normalized Hi-C contact frequencies for all condition 1 TADs has been calculated.')
@@ -167,6 +167,7 @@ def subdivide_types(data_types, h1, h2, scaling_factor, reso=args.reso):
             con2_hic_value = getc(h2,loc2,region2,reso)
 
             # Determine if strength up or down
+            print(con1_hic_value/(con2_hic_value * scaling_factor))
             if con1_hic_value < con2_hic_value * scaling_factor:
                 types['subdivide_strength_change'][i] = 'strength-change up'
             elif con1_hic_value > con2_hic_value * scaling_factor:

@@ -299,11 +299,25 @@ def normDiffbyMeanSD(D):
         k = abs(indr[_] - indc[_])
         D[indr[_], indc[_]] = a[k]
 
-    indinf = np.isinf(D)
-    indr, indc = np.nonzero(indinf)
+    # inf
+    # indinf = np.isinf(D)
+    # indr, indc = np.nonzero(indinf)
+    # for _ in range(len(indr)):
+    #     k = abs(indr[_] - indc[_])
+    #     D[indr[_], indc[_]] = b[k]
+    posinf = D == np.inf
+    neginf = D == -np.inf
+
+    indr, indc = np.nonzero(posinf)
     for _ in range(len(indr)):
         k = abs(indr[_] - indc[_])
         D[indr[_], indc[_]] = b[k]
+
+    indr, indc = np.nonzero(neginf)
+    for _ in range(len(indr)):
+        k = abs(indr[_] - indc[_])
+        D[indr[_], indc[_]] = -b[k]
+
 
     # subtract mean and dividing by sd
     for k, v in sd.items():
